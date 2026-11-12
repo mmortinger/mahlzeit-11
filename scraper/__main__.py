@@ -10,11 +10,13 @@ import argparse
 import copy
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
-from .common import iso_now, monday_of, today_vienna
+from . import health
+from .common import iso_now, monday_of, now_vienna, today_vienna
 from .models import SCHEMA_VERSION, RestaurantMenu
 
 DEFAULT_OUTPUT = Path(__file__).resolve().parent.parent / "site" / "data" / "menu.json"
@@ -138,8 +140,28 @@ def main(argv: list[str] | None = None) -> int:
     changed = write_if_changed(args.output, data)
     log.info("%s %s", "Geschrieben:" if changed else "Unverändert:", args.output)
 
+    problems = health.check(data, now_vienna())
+    for prob in problems:
+        log.warning("%s", prob)
+    report_to_github(problems)
+
     ok = sum(1 for r in data["restaurants"] if not r["stale"])
     return 0 if ok else 1
+
+
+def report_to_github(problems: list) -> None:
+    """In GitHub Actions: Zusammenfassung in den Lauf schreiben und die Probleme als
+    Step-Output weitergeben (der Job 'health' macht daraus den Alarm)."""
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a", encoding="utf-8") as fh:
+            fh.write(health.markdown(problems))
+    output = os.environ.get("GITHUB_OUTPUT")
+    if output:
+        text = "\n".join(map(str, problems))
+        with open(output, "a", encoding="utf-8") as fh:
+            fh.write(f"problems={len(problems)}\n")
+            fh.write(f"problem_text<<__EOF__\n{text}\n__EOF__\n")
 
 
 if __name__ == "__main__":

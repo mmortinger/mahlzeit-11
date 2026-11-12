@@ -92,6 +92,28 @@ Zeitplan (UTC, Mo–Fr): 06:30, 08:30 und 10:15 – das deckt Sommer- und Winter
 späte Lauf erwischt Tagesmenüs, die erst am Vormittag online gehen (Osfizio). Änderungen unter
 `site/` lösen beim Push nur ein Deploy ohne Crawl aus.
 
+### Überwachung & Benachrichtigung
+
+Nach jedem Crawl prüft `scraper/health.py` das Ergebnis. Der Job `health` lässt den Lauf
+fehlschlagen – und GitHub schickt dir eine Mail –, wenn
+
+- ein Restaurant nicht geladen werden konnte (**Fehler**, die Seite zeigt dann ältere Daten),
+- an einem Werktag ab 11:00 Uhr (Wien) für ein Restaurant kein Menü für heute da ist
+  (**Warnung**: Seite nicht aktualisiert oder Parser findet nichts mehr),
+- Interspar nur als Flugblatt-Link statt mit Gerichten vorliegt,
+- ein Parser-Test rot ist oder Crawl/Deploy abbricht.
+
+Daten werden trotzdem gespeichert und die Seite trotzdem veröffentlicht – der Alarm kommt erst am Ende.
+Wochenenden, österreichische Feiertage sowie 24./31.12. lösen keine Warnung aus. Die frühen Läufe
+(07:30/09:30) warnen nur bei echten Fehlern, nicht bei fehlenden Tagesmenüs.
+
+Die Probleme stehen in der Zusammenfassung des Laufs (Actions → Lauf öffnen). Mails kommen laut
+GitHub-Standard an das Konto, das den Zeitplan zuletzt geändert hat; einstellbar unter
+**GitHub → Settings → Notifications → Actions** („Only notify for failed workflows“).
+Zum Ausprobieren: **Actions → Run workflow → „Testalarm auslösen“** anhaken.
+
+Lokal erscheinen dieselben Hinweise als `WARNING` im Log von `python -m scraper`.
+
 > Hinweis: GitHub pausiert geplante Workflows in Repos, die 60 Tage keine Aktivität hatten.
 > Die automatischen `menu.json`-Commits halten das Repo normalerweise aktiv.
 

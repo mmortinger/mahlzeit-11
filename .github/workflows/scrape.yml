@@ -10,6 +10,11 @@ on:
     - cron: "30 8 * * 1-5"
     - cron: "15 10 * * 1-5"
   workflow_dispatch:
+    inputs:
+      test_alarm:
+        description: "Testalarm auslösen (prüft, ob die Fehler-Mail ankommt)"
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths:
@@ -32,6 +37,10 @@ jobs:
     if: github.event_name != 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      problems: ${{ steps.scrape.outputs.problems }}
+      problem_text: ${{ steps.scrape.outputs.problem_text }}
+      tests: ${{ steps.tests.outcome }}
     steps:
       - uses: actions/checkout@v4
 
@@ -45,11 +54,13 @@ jobs:
         run: pip install -r scraper/requirements.txt
 
       - name: Tests (Fixtures)
-        # Ein roter Test soll den täglichen Crawl nicht verhindern – er fällt im Log auf.
+        id: tests
+        # Ein roter Test soll den Crawl nicht verhindern – der Job 'health' meldet ihn danach.
         continue-on-error: true
         run: python -m pytest scraper/tests -q
 
       - name: Scraper laufen lassen
+        id: scrape
         run: python -m scraper
 
       - name: menu.json committen (nur bei Änderungen)
@@ -86,3 +97,45 @@ jobs:
 
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  # Läuft nach Crawl + Deploy und lässt den Workflow fehlschlagen, wenn etwas nicht stimmt.
+  # GitHub schickt bei fehlgeschlagenen Läufen automatisch eine Mail (Settings -> Notifications -> Actions).
+  # Die Daten sind zu diesem Zeitpunkt schon gespeichert und veröffentlicht.
+  health:
+    needs: [scrape, deploy]
+    if: always() && github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ergebnis prüfen
+        env:
+          SCRAPE_RESULT: ${{ needs.scrape.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          TESTS: ${{ needs.scrape.outputs.tests }}
+          PROBLEMS: ${{ needs.scrape.outputs.problems }}
+          PROBLEM_TEXT: ${{ needs.scrape.outputs.problem_text }}
+          TEST_ALARM: ${{ inputs.test_alarm }}
+        run: |
+          fail=0
+          if [ "$TEST_ALARM" = "true" ]; then
+            echo "::error title=Testalarm::Testalarm – wenn diese Mail ankommt, funktioniert die Benachrichtigung."
+            fail=1
+          fi
+          if [ "$SCRAPE_RESULT" != "success" ]; then
+            echo "::error title=Crawl fehlgeschlagen::Der Crawl-Job ist fehlgeschlagen ($SCRAPE_RESULT) – kein Restaurant konnte geladen werden oder die Installation brach ab."
+            fail=1
+          elif [ "$DEPLOY_RESULT" != "success" ]; then
+            echo "::error title=Deploy fehlgeschlagen::Die Seite konnte nicht veröffentlicht werden ($DEPLOY_RESULT)."
+            fail=1
+          fi
+          if [ "$TESTS" = "failure" ]; then
+            echo "::error title=Tests rot::Mindestens ein Parser-Test schlägt fehl."
+            fail=1
+          fi
+          if [ "${PROBLEMS:-0}" != "0" ]; then
+            while IFS= read -r line; do
+              [ -n "$line" ] && echo "::error title=Menü-Problem::$line"
+            done <<< "$PROBLEM_TEXT"
+            fail=1
+          fi
+          if [ "$fail" = "0" ]; then echo "Alles ok – alle Restaurants aktuell."; fi
+          exit "$fail"
