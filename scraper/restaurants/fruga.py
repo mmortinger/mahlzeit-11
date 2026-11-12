@@ -65,9 +65,16 @@ def parse(html: str, ref: date | None = None) -> RestaurantMenu:
 
     page_text = clean(soup.get_text(" "))
     m = _OUTSIDE.search(page_text)
-    menu.notes.append(m.group(0) if m else
-                      "Außerhalb des Menüplans immer: Surschnitzel, Hühnerschnitzel und Kabeljaufilet")
+    always = _ALWAYS.search(m.group(0)) if m else None
+    if always:
+        menu.subtitle = f"Immer zu haben: {always.group(1)}"
+    elif m:
+        menu.notes.append(m.group(0))
     return menu
+
+
+# "... bieten wir immer frisch gebackene Surschnitzel, Hühnerschnitzel und Kabeljaufilet an."
+_ALWAYS = re.compile(r"immer\s+(?:frisch\s+)?(?:gebackene\s+)?(.+?)\s+an\.", re.I)
 
 
 def find_pdf_url(html: str, ref: date) -> str | None:

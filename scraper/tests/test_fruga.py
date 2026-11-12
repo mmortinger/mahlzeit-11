@@ -11,7 +11,8 @@ def test_parse_table(fixture_text):
     assert len(fri.items) == 4
     assert (fri.items[0].name, fri.items[0].price) == ("Kabeljaufilet gebacken mit Erdäpfelsalat", 15.9)
     assert fri.items[3].price == 9.9
-    assert "Surschnitzel" in menu.notes[0]
+    assert menu.subtitle == "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
+    assert menu.notes == []  # nicht doppelt als Hinweis
 
 
 def test_pdf_fallback_matches_table(fixture_text, fixture_bytes):

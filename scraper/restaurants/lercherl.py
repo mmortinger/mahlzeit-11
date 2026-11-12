@@ -14,6 +14,7 @@ NAME = "Lercherl"
 URL = "https://www.lercherl.at/wochenmenue.html"
 
 DEFAULT_PRICE = 9.90
+GENERIC_SOUPS = {"tagessuppe", "suppe"}
 _INLINE_PRICE = re.compile(r"\(\s*€\s*\d{1,3}[,.]\d{2}\s*\)")
 
 
@@ -26,7 +27,7 @@ def _split_inline_price(text: str, default: float | None) -> tuple[str, float | 
 
 def parse(html: str, ref: date | None = None) -> RestaurantMenu:
     soup = BeautifulSoup(html, "html.parser")
-    menu = RestaurantMenu(id=ID, name=NAME, source_url=URL)
+    menu = RestaurantMenu(id=ID, name=NAME, source_url=URL, subtitle="Alle Menüs mit Tagessuppe")
 
     lead = soup.select_one("p.lead")
     lead_text = clean(lead.get_text(" ")) if lead else ""
@@ -62,6 +63,9 @@ def parse(html: str, ref: date | None = None) -> RestaurantMenu:
             continue
         soup_p = art.select_one('[data-cms-spalte="Suppe"], p.suppe')
         soup_name = clean(soup_p.get_text(" ")) if soup_p else None
+        # "Tagessuppe" steht als Unterzeile auf der Karte; nur konkrete Suppen beim Gericht nennen
+        if soup_name and soup_name.lower() in GENERIC_SOUPS:
+            soup_name = None
 
         dishes = art.select('[data-cms-spalte^="Gericht"]')
         if not dishes:  # Fallback ohne CMS-Attribute

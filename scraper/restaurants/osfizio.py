@@ -81,11 +81,17 @@ def parse(html: str, ref: date | None = None) -> RestaurantMenu:
 
     menu.days = sorted(by_date.values(), key=lambda x: x.date)
 
-    hours = soup.find(string=re.compile(r"\d{1,2}[.:]\d{2}\s*-\s*\d{1,2}[.:]\d{2}"))
+    sub = "Mit Vorspeise (Salat oder Suppe)"
+    hours = soup.find(string=_HOURS)
     if hours:
-        menu.notes.append(f"Mittagsmenüs Mo–Fr {clean(hours)} Uhr")
-    menu.notes.append("Jeweils mit Vorspeise (Salat oder Suppe); Menü steht erst am Vormittag online")
+        m = _HOURS.search(hours)
+        sub += f" · Mo–Fr {m.group(1).replace('.', ':')}–{m.group(2).replace('.', ':')} Uhr"
+    menu.subtitle = sub
+    menu.empty_hint = "Osfizio stellt nur das Tagesmenü online – oft erst am Vormittag, manchmal schon am Vorabend."
     return menu
+
+
+_HOURS = re.compile(r"(\d{1,2}[.:]\d{2})\s*-\s*(\d{1,2}[.:]\d{2})")
 
 
 _OG_BLOCK = re.compile(

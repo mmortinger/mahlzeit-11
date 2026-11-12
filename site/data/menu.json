@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-12T21:28:53+01:00",
+  "generated_at": "2026-11-12T22:10:10+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -16,16 +16,14 @@
               "name": "Schinkenfleckerl mit Blattsalat",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             },
             {
               "label": "Menü 2",
               "name": "Linsen mit Serviettenknödel",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             }
           ]
         },
@@ -37,16 +35,14 @@
               "name": "Gebackenes Schweinsschnitzel mit Erdäpfel-Vogerlsalat",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             },
             {
               "label": "Menü 2",
               "name": "Dillfisolen mit Salzerdäpfeln",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             }
           ]
         },
@@ -58,16 +54,14 @@
               "name": "Naturschnitzerl mit Reis",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             },
             {
               "label": "Menü 2",
               "name": "Gebackener Kürbis mit Sauce Tartare und Blattsalat",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             }
           ]
         },
@@ -79,16 +73,14 @@
               "name": "1/4 Backhendl mit Erdäpfelsalat",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             },
             {
               "label": "Menü 2",
               "name": "Geröstete Knödel mit Ei und Blattsalat",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             }
           ]
         },
@@ -100,16 +92,14 @@
               "name": "Gebackenes Buntbarschfilet mit Erdäpfelsalat",
               "price": 10.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             },
             {
               "label": "Menü 2",
               "name": "Nussnudeln mit Apfelmus",
               "price": 9.9,
               "allergens": null,
-              "vegetarian": null,
-              "description": "mit Tagessuppe"
+              "vegetarian": null
             },
             {
               "label": "Freitags-Spezial",
@@ -126,9 +116,10 @@
         "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
         "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
       ],
-      "fetched_at": "2026-11-12T21:28:47+01:00",
+      "fetched_at": "2026-11-12T22:09:42+01:00",
       "stale": false,
-      "error": null
+      "error": null,
+      "subtitle": "Alle Menüs mit Tagessuppe"
     },
     {
       "id": "osfizio",
@@ -155,15 +146,35 @@
               "description": "Vorspeise: Gemüsecremesuppe (L)"
             }
           ]
+        },
+        {
+          "date": "2026-11-13",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Sfiziotta (Römische Pinsa) mit Tomatensauce, Mozzarella, Gesalzener Ricotta",
+              "price": 11.9,
+              "allergens": "A, G",
+              "vegetarian": null,
+              "description": "Vorspeise: Gemischter Salat"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Lasagne mit Lachs, Butter-Spinat",
+              "price": 10.9,
+              "allergens": "A, D, G",
+              "vegetarian": null,
+              "description": "Vorspeise: Gemüsecremesuppe (L)"
+            }
+          ]
         }
       ],
-      "notes": [
-        "Mittagsmenüs Mo–Fr 11.30-15.00 Uhr",
-        "Jeweils mit Vorspeise (Salat oder Suppe); Menü steht erst am Vormittag online"
-      ],
-      "fetched_at": "2026-11-12T21:28:48+01:00",
+      "notes": [],
+      "fetched_at": "2026-11-12T22:10:10+01:00",
       "stale": false,
-      "error": null
+      "error": null,
+      "subtitle": "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr",
+      "empty_hint": "Osfizio stellt nur das Tagesmenü online – oft erst am Vormittag, manchmal schon am Vorabend."
     },
     {
       "id": "fruga",
@@ -327,12 +338,11 @@
           ]
         }
       ],
-      "notes": [
-        "Außerhalb des Menüplans bieten wir immer frisch gebackene Surschnitzel, Hühnerschnitzel und Kabeljaufilet an."
-      ],
-      "fetched_at": "2026-11-12T21:28:49+01:00",
+      "notes": [],
+      "fetched_at": "2026-11-12T22:09:44+01:00",
       "stale": false,
-      "error": null
+      "error": null,
+      "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
     },
     {
       "id": "interspar",
@@ -572,12 +582,14 @@
         }
       ],
       "notes": [
-        "Mittagsmenü mit Suppe oder Menüsalat",
-        "Täglich 10:30–16:00 Uhr, solange der Vorrat reicht"
+        "Solange der Vorrat reicht",
+        "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"
       ],
-      "fetched_at": "2026-11-12T21:28:53+01:00",
+      "fetched_at": "2026-11-12T22:09:47+01:00",
       "stale": false,
       "error": null,
+      "subtitle": "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr",
+      "empty_hint": "Der Menüplan für diese Woche ist noch nicht online.",
       "flyer_url": "https://flugblatt.interspar.at/menuplane/menuplan-kw46/",
       "preview_image": "https://cdn.ipaper.io/OpenGraphImage.ashx?v=eyJQYXBlckd1aWQiOiJiMmI1ZWU2MC0yODYwLTQ2OWQtODg1Mi1iY2ZkOGM0Y2QwMjkiLCJQYWdlTnVtYmVyIjoxLCJQYWdlQ291bnQiOjEsIlN0YXJ0T25TcHJlYWQiOmZhbHNlLCJVcmwiOiIvaW50ZXJzcGFyLWF1c3RyaWEvbWVudXBsYW5lL21lbnVwbGFuLWt3NDYvIiwiUGFydG5lck5hbWUiOiJpUGFwZXIifQ==",
       "valid_from": "2026-11-09",

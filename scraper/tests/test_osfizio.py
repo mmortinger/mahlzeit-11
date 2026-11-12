@@ -14,6 +14,8 @@ def test_parse_today(fixture_text):
     assert m2.name == "Pasta mit Thunfisch-Eier-Creme, getrockneten Tomaten"
     assert m2.allergens == "A, C, D, L, O"
     assert m2.description == "Vorspeise: Gemüsecremesuppe (L)"
+    assert menu.subtitle == "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr"
+    assert "Vormittag" in menu.empty_hint
 
 
 def test_og_description_fallback(fixture_text):

@@ -34,6 +34,10 @@ class RestaurantMenu:
     fetched_at: str | None = None
     stale: bool = False
     error: str | None = None
+    # Kurzinfo, die auf der Karte immer sichtbar ist (z. B. "Alle Menüs mit Tagessuppe")
+    subtitle: str | None = None
+    # Erklärung, wenn für heute/künftige Tage (noch) nichts da ist (z. B. "erst am Vormittag online")
+    empty_hint: str | None = None
     flyer_url: str | None = None
     preview_image: str | None = None
     valid_from: str | None = None
@@ -42,7 +46,7 @@ class RestaurantMenu:
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
         # Optionale Felder nur ausgeben, wenn gesetzt -> schlankeres JSON
-        for key in ("flyer_url", "preview_image", "valid_from", "valid_to"):
+        for key in ("subtitle", "empty_hint", "flyer_url", "preview_image", "valid_from", "valid_to"):
             if d[key] is None:
                 del d[key]
         for day in d["days"]:

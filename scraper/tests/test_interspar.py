@@ -65,3 +65,10 @@ def test_parse_week_falls_back(fixture_text):
     assert method == "pagetext" and len(days) == 6
     days, meta, method = interspar.parse_week("u", html.replace('"pageTexts"', '"x"'), None, KW46)
     assert method == "none" and days == [] and meta["image"]
+
+
+def test_subtitle_from_text(fixture_text):
+    meta = interspar.page_meta(fixture_text("interspar_kw46.html"))
+    assert interspar.subtitle_from_text(meta["page_texts"][0]) == (
+        "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr")
+    assert interspar.subtitle_from_text("") == "Mit Suppe oder Menüsalat"

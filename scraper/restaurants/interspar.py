@@ -257,6 +257,21 @@ def parse_page_text(text: str, monday: date) -> list[Day]:
     return [days[l] for l in _DAY_LABELS if l in days]
 
 
+_INCL = re.compile(r"mit\s+(Suppe\s+oder\s+Men\w*salat)", re.I)
+_HOURS = re.compile(r"T[ÄA]GLICH\s+VON\s+(\d{1,2})[.:](\d{2})\s+BIS\s+(\d{1,2})(?:[.:](\d{2}))?\s+UHR", re.I)
+
+
+def subtitle_from_text(text: str) -> str:
+    """'Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr' aus dem Flugblatt-Text."""
+    incl = _INCL.search(text or "")
+    hours = _HOURS.search(text or "")
+    parts = [f"Mit {incl.group(1)}" if incl else "Mit Suppe oder Menüsalat"]
+    if hours:
+        h1, m1, h2, m2 = hours.groups()
+        parts.append(f"täglich {int(h1)}:{m1}–{int(h2)}:{m2 or '00'} Uhr")
+    return " · ".join(parts)
+
+
 # --------------------------------------------------------------- Woche komplett
 
 def parse_week(url: str, html: str, pdf_bytes: bytes | None, iso_monday: date) -> tuple[list[Day], dict, str]:
@@ -316,15 +331,14 @@ def scrape() -> RestaurantMenu:
             menu.flyer_url = url
             menu.preview_image = meta["image"]
             menu.source_url = url
+            menu.subtitle = subtitle_from_text(" ".join(meta["page_texts"]))
             if days:
                 menu.valid_from, menu.valid_to = days[0].date, days[-1].date
 
     if not found_any:
         raise RuntimeError("Kein Interspar-Flugblatt für diese oder nächste KW gefunden")
 
-    menu.notes = [
-        "Mittagsmenü mit Suppe oder Menüsalat",
-        "Täglich 10:30–16:00 Uhr, solange der Vorrat reicht",
-    ]
+    menu.notes = ["Solange der Vorrat reicht", "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"]
+    menu.empty_hint = "Der Menüplan für diese Woche ist noch nicht online."
     log.info("Interspar Quellen: %s", ", ".join(methods))
     return menu
