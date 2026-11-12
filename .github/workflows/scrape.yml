@@ -1,0 +1,88 @@
+name: Menüs crawlen & Seite deployen
+
+on:
+  schedule:
+    # Mo–Fr, UTC. Wien = UTC+1 (Winter) bzw. UTC+2 (Sommer):
+    #   06:30 UTC -> 07:30 / 08:30   (Wochenmenüs)
+    #   08:30 UTC -> 09:30 / 10:30   (Tagesmenüs ab ca. 9:30)
+    #   10:15 UTC -> 11:15 / 12:15   (Nachzügler, z. B. Osfizio stellt teils erst ~10:45 online)
+    - cron: "30 6 * * 1-5"
+    - cron: "30 8 * * 1-5"
+    - cron: "15 10 * * 1-5"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "!site/data/menu.json"
+      - ".github/workflows/scrape.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    # Bei reinen Frontend-Änderungen (push) nicht crawlen, nur deployen
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: scraper/requirements.txt
+
+      - name: Abhängigkeiten installieren
+        run: pip install -r scraper/requirements.txt
+
+      - name: Tests (Fixtures)
+        # Ein roter Test soll den täglichen Crawl nicht verhindern – er fällt im Log auf.
+        continue-on-error: true
+        run: python -m pytest scraper/tests -q
+
+      - name: Scraper laufen lassen
+        run: python -m scraper
+
+      - name: menu.json committen (nur bei Änderungen)
+        run: |
+          if git diff --quiet -- site/data/menu.json; then
+            echo "Keine Änderungen an menu.json."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data/menu.json
+          git commit -m "Menüs aktualisiert ($(TZ=Europe/Vienna date '+%a %d.%m. %H:%M'))"
+          git pull --rebase --autostash
+          git push
+
+  deploy:
+    needs: scrape
+    # läuft auch, wenn scrape übersprungen wurde (push), aber nicht, wenn es fehlschlug
+    if: always() && (needs.scrape.result == 'success' || needs.scrape.result == 'skipped')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}  # neuester Stand inkl. frischem menu.json-Commit
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

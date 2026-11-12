@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MAhlzeit 11 – Antrag auf Mittagessen</title>
+  <meta name="description" content="Die Mittagsmenüs von Lercherl, Osfizio, Fruga Vital und Interspar auf einen Blick.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0B4F82" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0e1a26" media="(prefers-color-scheme: dark)">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <span class="logo-badge"><img src="img/logo.jpg" alt="" width="480" height="320"></span>
+      <div>
+        <h1 class="title">MAhlzeit 11</h1>
+        <p class="subtitle">Antrag auf Mittagessen</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="week-nav" aria-label="Woche" hidden>
+      <button type="button" class="week-btn" data-dir="-1" aria-label="Vorige Woche">‹</button>
+      <span class="week-label" aria-live="polite"></span>
+      <button type="button" class="week-btn" data-dir="1" aria-label="Nächste Woche">›</button>
+    </nav>
+    <div class="day-tabs" role="tablist" aria-label="Wochentag"></div>
+    <p class="hint" role="status" hidden></p>
+    <section class="cards" aria-live="polite">
+      <p class="loading">Menüs werden geladen …</p>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p class="updated"></p>
+    <details class="legend">
+      <summary>Allergen-Codes</summary>
+      <p>A Gluten · B Krebstiere · C Ei · D Fisch · E Erdnuss · F Soja · G Milch/Laktose ·
+        H Schalenfrüchte · L Sellerie · M Senf · N Sesam · O Sulfite · P Lupinen · R Weichtiere</p>
+    </details>
+    <p class="fineprint">Angaben ohne Gewähr – maßgeblich sind die Seiten der Restaurants.</p>
+  </footer>
+  <noscript><p class="wrap">Diese Seite braucht JavaScript, um die Menüs anzuzeigen.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,587 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-12T21:28:53+01:00",
+  "timezone": "Europe/Vienna",
+  "restaurants": [
+    {
+      "id": "lercherl",
+      "name": "Lercherl",
+      "source_url": "https://www.lercherl.at/wochenmenue.html",
+      "days": [
+        {
+          "date": "2026-11-09",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Schinkenfleckerl mit Blattsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Linsen mit Serviettenknödel",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            }
+          ]
+        },
+        {
+          "date": "2026-11-10",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Gebackenes Schweinsschnitzel mit Erdäpfel-Vogerlsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Dillfisolen mit Salzerdäpfeln",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            }
+          ]
+        },
+        {
+          "date": "2026-11-11",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Naturschnitzerl mit Reis",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Gebackener Kürbis mit Sauce Tartare und Blattsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            }
+          ]
+        },
+        {
+          "date": "2026-11-12",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "1/4 Backhendl mit Erdäpfelsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Geröstete Knödel mit Ei und Blattsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            }
+          ]
+        },
+        {
+          "date": "2026-11-13",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Gebackenes Buntbarschfilet mit Erdäpfelsalat",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Nussnudeln mit Apfelmus",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null,
+              "description": "mit Tagessuppe"
+            },
+            {
+              "label": "Freitags-Spezial",
+              "name": "Zander gebraten oder gebacken als Freitagsmenü mit Suppe",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Montag bis Freitag, mit Suppe um € 9,90",
+        "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
+        "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
+      ],
+      "fetched_at": "2026-11-12T21:28:47+01:00",
+      "stale": false,
+      "error": null
+    },
+    {
+      "id": "osfizio",
+      "name": "Osfizio",
+      "source_url": "https://www.osfizio.at/mittagsmenus/",
+      "days": [
+        {
+          "date": "2026-11-12",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Sfiziotta (Römische Pinsa) mit Tomatensauce und Büffelmozzarella",
+              "price": 11.9,
+              "allergens": "A, G",
+              "vegetarian": null,
+              "description": "Vorspeise: Gemischter Salat"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Pasta mit Thunfisch-Eier-Creme, getrockneten Tomaten",
+              "price": 10.9,
+              "allergens": "A, C, D, L, O",
+              "vegetarian": null,
+              "description": "Vorspeise: Gemüsecremesuppe (L)"
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Mittagsmenüs Mo–Fr 11.30-15.00 Uhr",
+        "Jeweils mit Vorspeise (Salat oder Suppe); Menü steht erst am Vormittag online"
+      ],
+      "fetched_at": "2026-11-12T21:28:48+01:00",
+      "stale": false,
+      "error": null
+    },
+    {
+      "id": "fruga",
+      "name": "Fruga Vital",
+      "source_url": "https://frugavital.at/",
+      "days": [
+        {
+          "date": "2026-11-09",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Fisolen-Würstel Eintopf mit Erdäpfel",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Schweinsgulasch mit Teigwaren",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Cordon Bleu vom Huhn mit Erdäpfelsalat",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-10",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Gebackener Leberkäse mit Erdäpfelsalat",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Hühnerkeulen Natur mit Gemüse und Reis",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Champignonschnitzel mit Reis",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-11",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Erdäpfel-Schafskäse-Laibchen mit Rahmgemüse",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Wild-Gulasch mit Knödel und Preiselbeeren",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Hühnerfilet in Backteig mit Rahmgurkensalat und Reis",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-12",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Gebackener Kürbis mit Sauce Tartare",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Tafelspitz mit Erdäpfelschmarrn, Schnittlauchsauce und Apfelkren",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Fleischpalatschinke überbacken mit Käse und Salzkartoffeln",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-13",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Kabeljaufilet gebacken mit Erdäpfelsalat",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Fisch Natur mit Gemüse und Erdäpfel",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Putenrollbraten mit Gemüse und Reis",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 4",
+              "name": "Mohnnudeln mit Apfelmus",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-14",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Wiener Schnitzel vom Kalb mit Salat und Preiselbeeren",
+              "price": 16.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Lasagne mit Salat",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Außerhalb des Menüplans bieten wir immer frisch gebackene Surschnitzel, Hühnerschnitzel und Kabeljaufilet an."
+      ],
+      "fetched_at": "2026-11-12T21:28:49+01:00",
+      "stale": false,
+      "error": null
+    },
+    {
+      "id": "interspar",
+      "name": "Interspar",
+      "source_url": "https://flugblatt.interspar.at/menuplane/menuplan-kw46/",
+      "days": [
+        {
+          "date": "2026-11-09",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Majoranfleisch von der Schweinsschulter, mit Nockerl",
+              "price": 9.4,
+              "allergens": "A, C, G, M, L",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Cremespinat mit Röstkartoffeln und Spiegelei",
+              "price": 8.4,
+              "allergens": "A, C",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-10",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Faschierte Laibchen mit Kartoffelpüree und Röstzwiebeln",
+              "price": 9.4,
+              "allergens": "A, C, G",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Thai Curry mit Paprika, Mango und Basmatireis",
+              "price": 8.4,
+              "allergens": "F, M",
+              "vegetarian": true,
+              "tags": [
+                "vegan"
+              ]
+            }
+          ]
+        },
+        {
+          "date": "2026-11-11",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Pariser-Schnitzel von der Pute, mit Erbsenreis",
+              "price": 9.4,
+              "allergens": "A, C, G",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Gemüse-Kartoffel-Auflauf mit Tzatziki",
+              "price": 8.4,
+              "allergens": "C, G, L",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-12",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Gefüllter Paprika mit Tomatenragout und Salzkartoffeln",
+              "price": 9.4,
+              "allergens": "A",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Gebackenes Gemüse mit Sauce Tartare und Petersilienkartoffeln",
+              "price": 8.4,
+              "allergens": "A, F, M",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-13",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Gebackenes Seelachsfilet MSC zertifiziert, mit Petersilienkartoffeln und Sauce Tartare",
+              "price": 9.4,
+              "allergens": "A, D, M",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Topfen-Kaiserschmarrn mit Zwetschkenröster",
+              "price": 8.4,
+              "allergens": "A, C, G",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-14",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "1/2 Grillhendl mit Pommes",
+              "price": 9.4,
+              "allergens": "M",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Riesenrösti mit Grillgemüse und Käse überbacken, dazu Tzatziki",
+              "price": 8.4,
+              "allergens": "G",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-16",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Ćevapčići mit Pommes und Ajvar",
+              "price": 9.4,
+              "allergens": "M",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Kartoffel-Laibchen mit Gemüse und Rahmdip",
+              "price": 8.4,
+              "allergens": "C, F, G, L, M",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-17",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Asiatischer Wok mit Huhn und Reis",
+              "price": 9.4,
+              "allergens": "A, E, F, G",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Gebackener Emmentaler mit Petersilienkartoffeln und Preiselbeeren",
+              "price": 8.4,
+              "allergens": "A, C, G",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-18",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Gefüllte Schweinsbrust mit Semmelfülle und Erbsenreis",
+              "price": 9.4,
+              "allergens": "A, C, G",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Mexikanischer Gemüsewrap mit Guacamole",
+              "price": 8.4,
+              "allergens": "A, G",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-19",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Spaghetti mit Sauce Bolognese und Gran Moravia",
+              "price": 9.4,
+              "allergens": "A, C, G, L",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Steirisches Kartoffelgulasch mit Käferbohnen und Semmel",
+              "price": 8.4,
+              "allergens": "A, F, G",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-20",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Gebackenes Seelachsfilet MSC zertifiziert, mit Petersilienkartoffeln und Sauce Tartare",
+              "price": 9.4,
+              "allergens": "A, D, M",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Bunte Schupfnudelpfanne mit jungem Blattspinat, Tomaten und Hirtenkäse",
+              "price": 8.4,
+              "allergens": "A, C, G, L",
+              "vegetarian": true
+            }
+          ]
+        },
+        {
+          "date": "2026-11-21",
+          "items": [
+            {
+              "label": "Klassisch",
+              "name": "Saftgulasch von der Schweinsschulter, mit Semmelknödel und Schnittlauch",
+              "price": 9.4,
+              "allergens": "A, C, G",
+              "vegetarian": null
+            },
+            {
+              "label": "Vegetarisch",
+              "name": "Spinatknödel mit Käserahmsauce",
+              "price": 8.4,
+              "allergens": "A, C, G",
+              "vegetarian": true
+            }
+          ]
+        }
+      ],
+      "notes": [
+        "Mittagsmenü mit Suppe oder Menüsalat",
+        "Täglich 10:30–16:00 Uhr, solange der Vorrat reicht"
+      ],
+      "fetched_at": "2026-11-12T21:28:53+01:00",
+      "stale": false,
+      "error": null,
+      "flyer_url": "https://flugblatt.interspar.at/menuplane/menuplan-kw46/",
+      "preview_image": "https://cdn.ipaper.io/OpenGraphImage.ashx?v=eyJQYXBlckd1aWQiOiJiMmI1ZWU2MC0yODYwLTQ2OWQtODg1Mi1iY2ZkOGM0Y2QwMjkiLCJQYWdlTnVtYmVyIjoxLCJQYWdlQ291bnQiOjEsIlN0YXJ0T25TcHJlYWQiOmZhbHNlLCJVcmwiOiIvaW50ZXJzcGFyLWF1c3RyaWEvbWVudXBsYW5lL21lbnVwbGFuLWt3NDYvIiwiUGFydG5lck5hbWUiOiJpUGFwZXIifQ==",
+      "valid_from": "2026-11-09",
+      "valid_to": "2026-11-14"
+    }
+  ]
+}
