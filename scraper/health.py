@@ -70,7 +70,10 @@ def check(data: dict, now: datetime) -> list[Problem]:
         if not days and r.get("flyer_url"):
             problems.append(Problem("Warnung", name, "Menü konnte nicht gelesen werden – nur Flugblatt-Link"))
             continue
-        if expect_today and not any(d.get("date") == today and d.get("items") for d in days):
+        has_today = any(d.get("date") == today and d.get("items") for d in days)
+        # Quelle hat schon auf die Folgewoche umgestellt (Lercherl: Fr-Nachmittag) – kein Fehler
+        switched = any(d.get("date", "") > today and d.get("items") for d in days)
+        if expect_today and not has_today and not switched:
             problems.append(Problem("Warnung", name, f"kein Menü für heute ({today}) gefunden"))
     return problems
 

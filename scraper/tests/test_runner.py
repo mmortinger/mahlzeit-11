@@ -48,3 +48,25 @@ def test_write_only_on_change(tmp_path):
     assert runner.write_if_changed(path, again) is False
     saved = json.loads(path.read_text(encoding="utf-8"))
     assert saved["restaurants"][0]["days"][0]["items"][0]["name"] == "Suppe"
+
+
+def _day(iso, name="X"):
+    return {"date": iso, "items": [{"label": "M", "name": name}]}
+
+
+def test_merge_keeps_today_when_source_switched_to_next_week():
+    # Lercherl am Freitagnachmittag: Quelle zeigt schon die Folgewoche
+    from datetime import date
+    old = {"days": [_day("2026-11-06"), _day("2026-11-12"), _day("2026-11-13"), _day("2026-11-14", "alt")]}
+    new = {"days": [_day("2026-11-16"), _day("2026-11-17")]}
+    runner._merge_past_days(new, old, today=date(2026, 11, 13))
+    # Vorwoche weg, Mo–heute behalten, alte Zukunftstage nicht wiederbeleben
+    assert [d["date"] for d in new["days"]] == ["2026-11-12", "2026-11-13", "2026-11-16", "2026-11-17"]
+
+
+def test_merge_prefers_fresh_data_for_same_day():
+    from datetime import date
+    old = {"days": [_day("2026-11-13", "alt")]}
+    new = {"days": [_day("2026-11-13", "neu")]}
+    runner._merge_past_days(new, old, today=date(2026, 11, 13))
+    assert [d["items"][0]["name"] for d in new["days"]] == ["neu"]

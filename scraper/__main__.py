@@ -12,6 +12,7 @@ import json
 import logging
 import os
 import sys
+from datetime import date
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
@@ -22,9 +23,6 @@ from .models import SCHEMA_VERSION, RestaurantMenu
 DEFAULT_OUTPUT = Path(__file__).resolve().parent.parent / "site" / "data" / "menu.json"
 log = logging.getLogger("scraper")
 
-# Restaurants, die nur den aktuellen Tag online haben: bereits gesehene Tage der
-# laufenden Woche behalten, damit man in den Tages-Tabs zurückblättern kann.
-KEEP_PAST_DAYS = {"osfizio"}
 
 
 def load_old(path: Path) -> dict[str, dict]:
@@ -38,12 +36,18 @@ def load_old(path: Path) -> dict[str, dict]:
         return {}
 
 
-def _merge_past_days(new: dict, old: dict | None) -> None:
+def _merge_past_days(new: dict, old: dict | None, today: date | None = None) -> None:
+    """Bereits gesehene Tage der laufenden Woche (bis einschließlich heute) behalten,
+    wenn die Quelle sie nicht mehr enthält. Betrifft z. B. Osfizio (zeigt nur den
+    aktuellen Tag) und Lercherl (stellt schon Freitagnachmittag auf die Folgewoche um –
+    sonst wäre das heutige Menü weg). Künftige Tage kommen nur aus der Quelle."""
     if not old:
         return
-    week_start = monday_of(today_vienna()).isoformat()
+    today = today or today_vienna()
+    week_start, today_iso = monday_of(today).isoformat(), today.isoformat()
     have = {d["date"] for d in new["days"]}
-    kept = [d for d in old.get("days", []) if d["date"] >= week_start and d["date"] not in have]
+    kept = [d for d in old.get("days", [])
+            if week_start <= d["date"] <= today_iso and d["date"] not in have]
     if kept:
         new["days"] = sorted(new["days"] + kept, key=lambda d: d["date"])
 
@@ -59,8 +63,7 @@ def run_one(module: Any, old: dict | None, scrape: Callable[[], RestaurantMenu] 
         menu.stale = False
         menu.error = None
         result = menu.to_dict()
-        if module.ID in KEEP_PAST_DAYS:
-            _merge_past_days(result, old)
+        _merge_past_days(result, old)
         return result
     except Exception as exc:  # noqa: BLE001 – Isolation ist hier der Zweck
         msg = f"{type(exc).__name__}: {exc}"

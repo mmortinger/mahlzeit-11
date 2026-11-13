@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-13T15:47:44+01:00",
+  "generated_at": "2026-11-13T15:50:54+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -8,6 +8,108 @@
       "name": "Lercherl",
       "source_url": "https://www.lercherl.at/wochenmenue.html",
       "days": [
+        {
+          "date": "2026-11-09",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Schinkenfleckerl mit Blattsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Menü 2",
+              "name": "Linsen mit Serviettenknödel",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-10",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Gebackenes Schweinsschnitzel mit Erdäpfel-Vogerlsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Menü 2",
+              "name": "Dillfisolen mit Salzerdäpfeln",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-11",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Naturschnitzerl mit Reis",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Menü 2",
+              "name": "Gebackener Kürbis mit Sauce Tartare und Blattsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-12",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "1/4 Backhendl mit Erdäpfelsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Menü 2",
+              "name": "Geröstete Knödel mit Ei und Blattsalat",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-13",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Gebackenes Buntbarschfilet mit Erdäpfelsalat",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Menü 2",
+              "name": "Nussnudeln mit Apfelmus",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Freitags-Spezial",
+              "name": "Zander gebraten oder gebacken als Freitagsmenü mit Suppe",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
         {
           "date": "2026-11-16",
           "items": [
@@ -116,7 +218,7 @@
         "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
         "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
       ],
-      "fetched_at": "2026-11-13T15:47:26+01:00",
+      "fetched_at": "2026-11-13T15:50:49+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Alle Menüs mit Tagessuppe"
@@ -170,7 +272,7 @@
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-13T15:47:29+01:00",
+      "fetched_at": "2026-11-13T15:50:50+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr",
@@ -339,7 +441,7 @@
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-13T15:47:35+01:00",
+      "fetched_at": "2026-11-13T15:50:51+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
@@ -585,7 +687,7 @@
         "Solange der Vorrat reicht",
         "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"
       ],
-      "fetched_at": "2026-11-13T15:47:44+01:00",
+      "fetched_at": "2026-11-13T15:50:54+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr",

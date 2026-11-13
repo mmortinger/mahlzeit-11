@@ -75,3 +75,8 @@ def test_report_to_github(tmp_path, monkeypatch):
     out.unlink()
     runner.report_to_github([])
     assert "problems=0\n" in out.read_text(encoding="utf-8")
+
+
+def test_no_warning_when_source_already_shows_next_week():
+    data = {"restaurants": [restaurant("lercherl", dates=("2026-11-16", "2026-11-17"))]}
+    assert health.check(data, at("2026-11-13T15:47")) == []
