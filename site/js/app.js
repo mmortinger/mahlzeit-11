@@ -159,7 +159,9 @@
     const today = state.today;
     const wd = weekday(today);
     const fromHash = /^#(\d{4}-\d{2}-\d{2})$/.exec(location.hash);
-    if (fromHash && weekday(fromHash[1]) < 5) return { date: fromHash[1], hint: null };
+    // Datum aus der URL nur, wenn es nicht in der Vergangenheit liegt – sonst zeigt ein am
+    // Handy offen gelassener Tab nach dem Neuladen am nächsten Tag noch den Vortag.
+    if (fromHash && weekday(fromHash[1]) < 5 && fromHash[1] >= today) return { date: fromHash[1], hint: null };
 
     if (wd < 5) {
       const hint = hasDataFor(today)
@@ -383,27 +385,57 @@
   });
 
   // ---------------------------------------------------------------- Start
+  const REFRESH_AFTER_MS = 5 * 60 * 1000;
+  let lastLoad = 0;
+
+  async function fetchData() {
+    const res = await fetch("data/menu.json", { cache: "no-cache" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    lastLoad = Date.now();
+    return res.json();
+  }
+
+  function applyData(data, { keepSelection }) {
+    state.data = data;
+    state.restaurants = Array.isArray(data.restaurants) ? data.restaurants.slice() : [];
+    applyOrder();
+    state.initial = initialSelection();
+    const target = keepSelection && state.selected ? state.selected : state.initial.date;
+    state.weeks = computeWeeks(target);
+    els.updated.textContent = data.generated_at ? `Zuletzt aktualisiert: ${stampLong(data.generated_at)}` : "";
+    select(target);
+  }
+
   async function init() {
     applyModes();
     try {
-      const res = await fetch("data/menu.json", { cache: "no-cache" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      state.data = await res.json();
+      applyData(await fetchData(), { keepSelection: false });
     } catch (err) {
       els.cards.replaceChildren(h("p", { class: "error-box", text: "Die Menüdaten konnten nicht geladen werden. Bitte später nochmal versuchen." }));
       console.error(err);
-      return;
     }
-    state.restaurants = Array.isArray(state.data.restaurants) ? state.data.restaurants.slice() : [];
-    applyOrder();
-
-    state.initial = initialSelection();
-    state.weeks = computeWeeks(state.initial.date);
-    if (state.data.generated_at) {
-      els.updated.textContent = `Zuletzt aktualisiert: ${stampLong(state.data.generated_at)}`;
-    }
-    select(state.initial.date);
   }
+
+  // Handys halten Tabs oft stundenlang offen und zeigen sie beim Zurückwechseln ohne Neuladen.
+  // Beim Wiederanzeigen daher still nachladen: neuer Tag -> zurück auf "heute",
+  // nur neue Daten -> gewählten Tag behalten.
+  async function refreshIfStale() {
+    if (document.visibilityState !== "visible" || Date.now() - lastLoad < REFRESH_AFTER_MS) return;
+    if (state.reordering) return;
+    const dayChanged = viennaToday() !== state.today;
+    let data;
+    try {
+      data = await fetchData();
+    } catch (_) {
+      return; // offline o. Ä. – alte Ansicht behalten
+    }
+    if (!dayChanged && state.data && data.generated_at === state.data.generated_at) return;
+    state.today = viennaToday();
+    applyData(data, { keepSelection: !dayChanged });
+  }
+
+  document.addEventListener("visibilitychange", refreshIfStale);
+  window.addEventListener("pageshow", (e) => { if (e.persisted) refreshIfStale(); });
 
   init();
 })();
