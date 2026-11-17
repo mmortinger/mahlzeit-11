@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-16T17:16:19+01:00",
+  "generated_at": "2026-11-17T17:22:27+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -116,7 +116,7 @@
         "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
         "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
       ],
-      "fetched_at": "2026-11-16T17:16:10+01:00",
+      "fetched_at": "2026-11-17T17:22:04+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Alle Menüs mit Tagessuppe"
@@ -146,10 +146,31 @@
               "description": "Vorspeise: Linsensuppe (L)"
             }
           ]
+        },
+        {
+          "date": "2026-11-17",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Sfiziotta (Römische Pinsa) mit Tomatensauce, Mozzarella, Sardellen, Oliven, Kapern",
+              "price": 11.9,
+              "allergens": "A, G",
+              "vegetarian": null,
+              "description": "Vorspeise: Gemischter Salat"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Pasta mit Kalbsragout",
+              "price": 10.9,
+              "allergens": "A, G, L, O",
+              "vegetarian": null,
+              "description": "Vorspeise: Hülsenfrüchtesuppe (A/L)"
+            }
+          ]
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-16T17:16:11+01:00",
+      "fetched_at": "2026-11-17T17:22:07+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr",
@@ -318,7 +339,7 @@
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-16T17:16:13+01:00",
+      "fetched_at": "2026-11-17T17:22:21+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
@@ -564,7 +585,7 @@
         "Solange der Vorrat reicht",
         "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"
       ],
-      "fetched_at": "2026-11-16T17:16:19+01:00",
+      "fetched_at": "2026-11-17T17:22:27+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr",
