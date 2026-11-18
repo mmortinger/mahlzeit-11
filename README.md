@@ -88,9 +88,13 @@ Hilfreich aus `common.py`: `parse_german_date("Montag, 9.11.", ref)` (Jahr wird 
    damit die Action `menu.json` committen darf.
 4. Unter **Actions → „Menüs crawlen & Seite deployen“ → Run workflow** einmal manuell starten.
 
-Zeitplan (UTC, Mo–Fr): 06:30, 08:30 und 10:15 – das deckt Sommer- und Winterzeit ab, und der
-späte Lauf erwischt Tagesmenüs, die erst am Vormittag online gehen (Osfizio). Änderungen unter
-`site/` lösen beim Push nur ein Deploy ohne Crawl aus.
+Zeitplan (UTC): So–Do 18:30 sowie Mo–Fr 01:30, 04:30, 06:30, 08:30 und 10:15 – in Wien eine
+bzw. zwei Stunden später. GitHub startet geplante Läufe oft stark verspätet (beobachtet: mehrere
+Stunden). Die Abend- und Nachtläufe sorgen dafür, dass die Wochenmenüs (die meist Tage vorher
+online sind) und am Vorabend veröffentlichte Tagesmenüs trotzdem rechtzeitig da sind. Die
+Läufe am Vormittag erwischen Tagesmenüs, die erst dann online gehen (Osfizio). Läufe ohne
+Änderung erzeugen keinen Commit. Änderungen unter `site/` lösen beim Push nur ein Deploy ohne
+Crawl aus.
 
 ### Überwachung & Benachrichtigung
 
@@ -104,8 +108,8 @@ fehlschlagen – und GitHub schickt dir eine Mail –, wenn
 - ein Parser-Test rot ist oder Crawl/Deploy abbricht.
 
 Daten werden trotzdem gespeichert und die Seite trotzdem veröffentlicht – der Alarm kommt erst am Ende.
-Wochenenden, österreichische Feiertage sowie 24./31.12. lösen keine Warnung aus. Die frühen Läufe
-(07:30/09:30) warnen nur bei echten Fehlern, nicht bei fehlenden Tagesmenüs.
+Wochenenden, österreichische Feiertage sowie 24./31.12. lösen keine Warnung aus. Läufe vor 11:00
+warnen nur bei echten Fehlern, nicht bei fehlenden Tagesmenüs.
 
 Die Probleme stehen in der Zusammenfassung des Laufs (Actions → Lauf öffnen). Mails kommen laut
 GitHub-Standard an das Konto, das den Zeitplan zuletzt geändert hat; einstellbar unter
@@ -135,4 +139,4 @@ man, was der Server tatsächlich geliefert hat.
   der Woche werden in `menu.json` behalten, damit man zurückblättern kann. Manchmal bleibt das
   Menü vom Vortag unter dem aktuellen im Tab stehen – Blöcke vor heute werden ignoriert.
   Gerichte können über mehrere Zeilen gehen (Zeile ohne führenden Strich = Fortsetzung).
-- Alle Abrufe mit eigenem User-Agent, 20 s Timeout, höchstens ein Retry – drei Läufe pro Werktag.
+- Alle Abrufe mit eigenem User-Agent, 20 s Timeout, höchstens ein Retry – sechs Läufe pro Werktag.

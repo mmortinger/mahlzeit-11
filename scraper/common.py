@@ -10,7 +10,7 @@ import requests
 
 VIENNA = ZoneInfo("Europe/Vienna")
 USER_AGENT = (
-    "MAhlzeit11-MenuBot/1.0 (+Mittagsmenue-Aggregator; 3 Abrufe pro Werktag)"
+    "MAhlzeit11-MenuBot/1.0 (+Mittagsmenue-Aggregator; 6 Abrufe pro Werktag)"
 )
 TIMEOUT = 20  # Sekunden
 

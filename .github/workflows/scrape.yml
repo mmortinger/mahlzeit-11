@@ -2,10 +2,19 @@ name: Menüs crawlen & Seite deployen
 
 on:
   schedule:
-    # Mo–Fr, UTC. Wien = UTC+1 (Winter) bzw. UTC+2 (Sommer):
-    #   06:30 UTC -> 07:30 / 08:30   (Wochenmenüs)
-    #   08:30 UTC -> 09:30 / 10:30   (Tagesmenüs ab ca. 9:30)
-    #   10:15 UTC -> 11:15 / 12:15   (Nachzügler, z. B. Osfizio stellt teils erst ~10:45 online)
+    # UTC. Wien = UTC+1 (Winter) bzw. UTC+2 (Sommer).
+    # GitHub startet geplante Läufe oft stark verspätet (beobachtet: mehrere Stunden),
+    # daher zusätzlich Abend- und Nachtläufe – Wochenmenüs (Lercherl, Interspar, Fruga)
+    # stehen meist schon Tage vorher online, Osfizio manchmal am Vorabend.
+    #   18:30 UTC So–Do -> 19:30 / 20:30   (Menüs für den nächsten Tag)
+    #   01:30 UTC Mo–Fr -> 02:30 / 03:30
+    #   04:30 UTC Mo–Fr -> 05:30 / 06:30
+    #   06:30 UTC Mo–Fr -> 07:30 / 08:30
+    #   08:30 UTC Mo–Fr -> 09:30 / 10:30   (Tagesmenüs ab ca. 9:30)
+    #   10:15 UTC Mo–Fr -> 11:15 / 12:15   (Nachzügler, z. B. Osfizio stellt teils erst ~10:45 online)
+    - cron: "30 18 * * 0-4"
+    - cron: "30 1 * * 1-5"
+    - cron: "30 4 * * 1-5"
     - cron: "30 6 * * 1-5"
     - cron: "30 8 * * 1-5"
     - cron: "15 10 * * 1-5"
