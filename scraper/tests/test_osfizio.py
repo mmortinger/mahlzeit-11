@@ -25,3 +25,30 @@ def test_og_description_fallback(fixture_text):
     names = [i.name for i in menu.days[0].items]
     assert names[0].startswith("Sfiziotta")
     assert names[1].startswith("Pasta mit Thunfisch")
+
+
+def test_parse_with_leftover_old_day_and_multiline_dish(fixture_text):
+    # 18.11.: Tab 2 enthält unter dem heutigen Menü noch das vom 17.11.,
+    # Tab 1 hat ein Hauptgericht über zwei Zeilen.
+    from datetime import date
+    menu = osfizio.parse(fixture_text("osfizio_2026-11-18.html"), date(2026, 11, 18))
+    assert [d.date for d in menu.days] == ["2026-11-18"]
+    m1, m2 = menu.days[0].items
+    assert m1.name == ("Sfiziotta (Römische Pinsa) mit Tomatensauce, Mozzarella, Gemüse, "
+                       "Sardellen, Oliven, Kapern")
+    assert (m1.allergens, m1.description) == ("A, G", "Vorspeise: Gemischter Salat")
+    assert m2.name == "Lasagna Classica (mit Mozzarella und Faschiertem)"
+    assert (m2.allergens, m2.description) == ("A, C, G, L", "Vorspeise: Brokkolicremesuppe (L)")
+
+
+def test_only_old_day_left_keeps_newest(fixture_text):
+    from datetime import date
+    menu = osfizio.parse(fixture_text("osfizio_2026-11-18.html"), date(2026, 11, 19))
+    assert [d.date for d in menu.days] == ["2026-11-18"]  # nichts Neueres da -> neuester Block
+
+
+def test_scrape_error_is_descriptive(monkeypatch):
+    import pytest
+    monkeypatch.setattr(osfizio, "fetch_text", lambda url: "<html><title>Wartung</title></html>")
+    with pytest.raises(ValueError, match="0 Tabs.*Wartung"):
+        osfizio.scrape()

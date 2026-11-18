@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-18T16:54:00+01:00",
+  "generated_at": "2026-11-18T17:41:11+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -167,12 +167,33 @@
               "description": "Vorspeise: Hülsenfrüchtesuppe (A/L)"
             }
           ]
+        },
+        {
+          "date": "2026-11-18",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Sfiziotta (Römische Pinsa) mit Tomatensauce, Mozzarella, Gemüse, Sardellen, Oliven, Kapern",
+              "price": 11.9,
+              "allergens": "A, G",
+              "vegetarian": null,
+              "description": "Vorspeise: Gemischter Salat"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Lasagna Classica (mit Mozzarella und Faschiertem)",
+              "price": 10.9,
+              "allergens": "A, C, G, L",
+              "vegetarian": null,
+              "description": "Vorspeise: Brokkolicremesuppe (L)"
+            }
+          ]
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-17T17:22:07+01:00",
-      "stale": true,
-      "error": "ValueError: Keine Menüdaten gefunden – Seitenstruktur geändert?",
+      "fetched_at": "2026-11-18T17:41:11+01:00",
+      "stale": false,
+      "error": null,
       "subtitle": "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr",
       "empty_hint": "Osfizio stellt nur das Tagesmenü online – oft erst am Vormittag, manchmal schon am Vorabend."
     },

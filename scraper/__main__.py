@@ -11,16 +11,22 @@ import copy
 import json
 import logging
 import os
+import re
 import sys
+import time
 from datetime import date
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
-from . import health
+from . import common, health
 from .common import iso_now, monday_of, now_vienna, today_vienna
 from .models import SCHEMA_VERSION, RestaurantMenu
 
 DEFAULT_OUTPUT = Path(__file__).resolve().parent.parent / "site" / "data" / "menu.json"
+DEFAULT_DEBUG_DIR = Path(__file__).resolve().parent.parent / "debug"
+# Ein fehlgeschlagener Scraper wird nach dieser Pause einmal wiederholt (Seite gerade in
+# Bearbeitung, kurzer Aussetzer o. Ä.). Tests setzen das auf 0.
+RETRY_DELAY = 20
 log = logging.getLogger("scraper")
 
 
@@ -52,13 +58,42 @@ def _merge_past_days(new: dict, old: dict | None, today: date | None = None) -> 
         new["days"] = sorted(new["days"] + kept, key=lambda d: d["date"])
 
 
-def run_one(module: Any, old: dict | None, scrape: Callable[[], RestaurantMenu] | None = None) -> dict:
-    """Ein Restaurant scrapen; bei Fehler Altdaten als stale zurückgeben."""
+def _attempt(scrape: Callable[[], RestaurantMenu]) -> RestaurantMenu:
+    menu = scrape()
+    if not menu.days and not menu.flyer_url:
+        raise ValueError("Keine Menüdaten gefunden – Seitenstruktur geändert?")
+    return menu
+
+
+def _dump_debug(debug_dir: Path, rid: str, msg: str) -> None:
+    """Zuletzt geladene Seiten speichern, damit man später sieht, was der Server geliefert hat."""
+    try:
+        target = debug_dir / rid
+        target.mkdir(parents=True, exist_ok=True)
+        lines = [msg, ""]
+        for n, (url, status, body) in enumerate(common.recent_responses(), 1):
+            name = f"{n:02d}_" + (re.sub(r"[^\w.-]+", "_", url.split("://", 1)[-1])[:80] or "seite")
+            (target / name).write_bytes(body)
+            lines.append(f"{name}: HTTP {status} {url} ({len(body)} Bytes)")
+        (target / "fehler.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    except OSError as exc:
+        log.warning("Diagnose-Dateien für %s nicht geschrieben: %s", rid, exc)
+
+
+def run_one(module: Any, old: dict | None, scrape: Callable[[], RestaurantMenu] | None = None,
+            debug_dir: Path | None = None) -> dict:
+    """Ein Restaurant scrapen (bei Fehler ein zweiter Versuch); scheitert auch der,
+    Altdaten als stale zurückgeben und – falls debug_dir – die geladenen Seiten speichern."""
     scrape = scrape or module.scrape
     try:
-        menu = scrape()
-        if not menu.days and not menu.flyer_url:
-            raise ValueError("Keine Menüdaten gefunden – Seitenstruktur geändert?")
+        common.reset_recent()
+        try:
+            menu = _attempt(scrape)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("%s: 1. Versuch fehlgeschlagen (%s: %s) – neuer Versuch in %ss",
+                        module.ID, type(exc).__name__, exc, RETRY_DELAY)
+            time.sleep(RETRY_DELAY)
+            menu = _attempt(scrape)
         menu.fetched_at = iso_now()
         menu.stale = False
         menu.error = None
@@ -68,6 +103,8 @@ def run_one(module: Any, old: dict | None, scrape: Callable[[], RestaurantMenu] 
     except Exception as exc:  # noqa: BLE001 – Isolation ist hier der Zweck
         msg = f"{type(exc).__name__}: {exc}"
         log.error("%s fehlgeschlagen: %s", module.ID, msg)
+        if debug_dir:
+            _dump_debug(debug_dir, module.ID, msg)
         if old:
             result = copy.deepcopy(old)
         else:
@@ -85,8 +122,8 @@ def _strip_volatile(data: dict) -> dict:
     return data
 
 
-def build(modules: Iterable[Any], old_by_id: dict[str, dict]) -> dict:
-    restaurants = [run_one(m, old_by_id.get(m.ID)) for m in modules]
+def build(modules: Iterable[Any], old_by_id: dict[str, dict], debug_dir: Path | None = None) -> dict:
+    restaurants = [run_one(m, old_by_id.get(m.ID), debug_dir=debug_dir) for m in modules]
     return {
         "schema_version": SCHEMA_VERSION,
         "generated_at": iso_now(),
@@ -115,6 +152,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="python -m scraper", description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--only", nargs="*", help="nur diese Restaurant-IDs scrapen")
+    parser.add_argument("--debug-dir", type=Path, default=DEFAULT_DEBUG_DIR,
+                        help="hier landen bei Fehlern die geladenen Seiten (Standard: debug/)")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
 
@@ -127,7 +166,7 @@ def main(argv: list[str] | None = None) -> int:
 
     old_by_id = load_old(args.output)
     modules = [m for m in RESTAURANTS if not args.only or m.ID in args.only]
-    data = build(modules, old_by_id)
+    data = build(modules, old_by_id, args.debug_dir)
 
     if args.only:  # nicht ausgewählte Restaurants unverändert übernehmen
         fresh = {r["id"]: r for r in data["restaurants"]}

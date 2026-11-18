@@ -31,12 +31,26 @@ def session() -> requests.Session:
     return _session
 
 
+# Zuletzt geladene Antworten (für Diagnose-Dateien, wenn ein Scraper scheitert)
+_RECENT: list[tuple[str, int, bytes]] = []
+
+
+def reset_recent() -> None:
+    _RECENT.clear()
+
+
+def recent_responses() -> list[tuple[str, int, bytes]]:
+    return list(_RECENT)
+
+
 def fetch(url: str, *, retries: int = 1, **kwargs) -> requests.Response:
     """GET mit Timeout und einem sanften Retry (nicht bei 4xx)."""
     last_exc: Exception | None = None
     for attempt in range(retries + 1):
         try:
             resp = session().get(url, timeout=TIMEOUT, **kwargs)
+            _RECENT.append((resp.url or url, resp.status_code, resp.content[:5_000_000]))
+            del _RECENT[:-10]
             resp.raise_for_status()
             return resp
         except requests.HTTPError as exc:
@@ -130,8 +144,11 @@ def parse_price(text: str | None) -> float | None:
 # ---------------------------------------------------------------- Allergene
 
 # "A, C, G, M, L" / "A,G" / "A, C, D,L,O"
-ALLERGEN_GROUP = r"[A-R](?:\s*,\s*[A-R])*"
+ALLERGEN_GROUP = r"[A-R](?:\s*[,/]\s*[A-R])*"
 _ALLERGEN_PARENS = re.compile(r"\(\s*(" + ALLERGEN_GROUP + r")\s*\)")
+# Allergene am Ende einer Klammer mit Text: "(mit Mozzarella und Faschiertem A,C,G,L)"
+_ALLERGEN_TAIL_IN_PARENS = re.compile(
+    r"\(([^()]*?[a-zäöüß][^()]*?)\s*,?\s+([A-R](?:\s*[,/]\s*[A-R])+)\s*\)")
 
 
 def normalize_allergens(codes: str | None) -> str | None:
@@ -142,8 +159,16 @@ def normalize_allergens(codes: str | None) -> str | None:
 
 
 def split_allergens_in_parens(text: str) -> tuple[str, str | None]:
-    """'Pasta mit X (A, C, D,L,O)' -> ('Pasta mit X', 'A, C, D, L, O')."""
-    found = _ALLERGEN_PARENS.findall(text)
+    """'Pasta mit X (A, C, D,L,O)' -> ('Pasta mit X', 'A, C, D, L, O').
+    Auch '(A/L)' und '(mit Faschiertem A,C,G,L)' -> '(mit Faschiertem)' + 'A, C, G, L'."""
+    found: list[str] = []
+
+    def tail(m: re.Match) -> str:
+        found.append(m.group(2))
+        return f"({m.group(1)})"
+
+    text = _ALLERGEN_TAIL_IN_PARENS.sub(tail, text)
+    found += _ALLERGEN_PARENS.findall(text)
     if not found:
         return clean(text), None
     stripped = clean(_ALLERGEN_PARENS.sub("", text))

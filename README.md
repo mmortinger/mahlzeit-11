@@ -114,6 +114,11 @@ Zum Ausprobieren: **Actions → Run workflow → „Testalarm auslösen“** anh
 
 Lokal erscheinen dieselben Hinweise als `WARNING` im Log von `python -m scraper`.
 
+Scheitert ein Scraper, wird er nach 20 s einmal wiederholt. Scheitert er wieder, speichert der
+Runner die zuletzt geladenen Seiten samt HTTP-Status unter `debug/<restaurant>/` (lokal, in
+`.gitignore`). Im Workflow landen sie als Artefakt **„diagnose-…“** im Lauf (14 Tage) – so sieht
+man, was der Server tatsächlich geliefert hat.
+
 > Hinweis: GitHub pausiert geplante Workflows in Repos, die 60 Tage keine Aktivität hatten.
 > Die automatischen `menu.json`-Commits halten das Repo normalerweise aktiv.
 
@@ -127,5 +132,7 @@ Lokal erscheinen dieselben Hinweise als `WARNING` im Log von `python -m scraper`
   daher kein automatischer Fallback. Das Flugblatt nennt keine Filiale – es gibt nur eine
   österreichweite URL.
 - **Osfizio** stellt nur den aktuellen Tag online, teils erst gegen 10:45. Bereits gesehene Tage
-  der Woche werden in `menu.json` behalten, damit man zurückblättern kann.
+  der Woche werden in `menu.json` behalten, damit man zurückblättern kann. Manchmal bleibt das
+  Menü vom Vortag unter dem aktuellen im Tab stehen – Blöcke vor heute werden ignoriert.
+  Gerichte können über mehrere Zeilen gehen (Zeile ohne führenden Strich = Fortsetzung).
 - Alle Abrufe mit eigenem User-Agent, 20 s Timeout, höchstens ein Retry – drei Läufe pro Werktag.

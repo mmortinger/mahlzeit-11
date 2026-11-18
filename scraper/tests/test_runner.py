@@ -70,3 +70,31 @@ def test_merge_prefers_fresh_data_for_same_day():
     new = {"days": [_day("2026-11-13", "neu")]}
     runner._merge_past_days(new, old, today=date(2026, 11, 13))
     assert [d["items"][0]["name"] for d in new["days"]] == ["neu"]
+
+
+def test_second_attempt_succeeds():
+    calls = []
+
+    def flaky():
+        calls.append(1)
+        if len(calls) == 1:
+            raise ValueError("Seite gerade leer")
+        return ok_menu()
+
+    r = runner.build([fake_module("a", flaky)], {})["restaurants"][0]
+    assert len(calls) == 2 and r["stale"] is False and r["days"]
+
+
+def test_failure_writes_debug_files(tmp_path, monkeypatch):
+    from scraper import common
+
+    def broken():
+        common._RECENT.append(("https://b.example/seite?x=1", 200, b"<html>leer</html>"))
+        raise ValueError("nix gefunden")
+
+    r = runner.build([fake_module("b", broken)], {}, debug_dir=tmp_path)["restaurants"][0]
+    assert r["stale"] is True
+    info = (tmp_path / "b" / "fehler.txt").read_text(encoding="utf-8")
+    assert "nix gefunden" in info and "HTTP 200" in info
+    pages = [f for f in (tmp_path / "b").iterdir() if f.name != "fehler.txt"]
+    assert pages and pages[0].read_bytes() == b"<html>leer</html>"

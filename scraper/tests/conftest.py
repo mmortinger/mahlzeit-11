@@ -15,3 +15,9 @@ def fixture_text():
 @pytest.fixture
 def fixture_bytes():
     return lambda name: (FIXTURES / name).read_bytes()
+
+
+@pytest.fixture(autouse=True)
+def _no_retry_delay(monkeypatch):
+    from scraper import __main__ as runner
+    monkeypatch.setattr(runner, "RETRY_DELAY", 0)

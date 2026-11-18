@@ -6,7 +6,9 @@ from datetime import date
 
 from bs4 import BeautifulSoup
 
-from ..common import clean, fetch_text, parse_german_date, parse_price, split_allergens_in_parens
+from ..common import (
+    clean, fetch_text, parse_german_date, parse_price, split_allergens_in_parens, today_vienna,
+)
 from ..models import Day, Item, RestaurantMenu
 
 ID = "osfizio"
@@ -23,28 +25,62 @@ def _label(title: str) -> str:
     return f"Menü {m.group(1)}" if m else re.sub(r"\s*€.*$", "", title)
 
 
-def _parse_lines(lines: list[str], ref: date | None) -> tuple[date | None, str | None, str | None, str | None]:
-    """-> (Datum, Vorspeise, Hauptgericht, Allergene des Hauptgerichts)"""
-    the_date = None
-    dishes: list[str] = []
+def _split_dish(fragments: list[str]) -> tuple[str, str | None]:
+    """Ein Gericht kann über mehrere Zeilen gehen -> Name ', '-verbunden, Allergene vereinigt."""
+    names: list[str] = []
+    codes: list[str] = []
+    for frag in fragments:
+        name, allergens = split_allergens_in_parens(frag)
+        if name:
+            names.append(name)
+        if allergens:
+            codes += [c for c in allergens.split(", ") if c not in codes]
+    return clean(", ".join(names)), ", ".join(codes) or None
+
+
+def _parse_block(lines: list[str]) -> tuple[str | None, str | None, str | None]:
+    """Zeilen eines Datumsblocks -> (Vorspeise, Hauptgericht, Allergene des Hauptgerichts).
+    Zeilen mit führendem Strich beginnen ein neues Gericht, andere setzen das vorige fort."""
+    dishes: list[list[str]] = []
+    for line in lines:
+        if _LEADING_DASH.match(line) or not dishes:
+            dishes.append([_LEADING_DASH.sub("", line)])
+        else:
+            dishes[-1].append(line)
+    if not dishes:
+        return None, None, None
+    main, allergens = _split_dish(dishes[-1])
+    starters = []
+    for dish in dishes[:-1]:
+        name, codes = _split_dish(dish)
+        starters.append(name + (f" ({codes})" if codes else ""))
+    return " / ".join(starters) or None, main or None, allergens
+
+
+def _parse_lines(lines: list[str], ref: date | None) -> list[tuple[date, str | None, str, str | None]]:
+    """Tab-Inhalt -> [(Datum, Vorspeise, Hauptgericht, Allergene)], ein Eintrag pro Datumsblock.
+    Osfizio lässt manchmal das Menü vom Vortag unter dem aktuellen stehen: Blöcke vor heute
+    werden verworfen, außer es gibt keinen anderen (dann nur der neueste)."""
+    blocks: list[tuple[date, list[str]]] = []
     for line in lines:
         line = clean(line)
         if not line:
             continue
         if _DATE_ONLY.match(line):
-            the_date = parse_german_date(line, ref)
-            continue
-        dishes.append(_LEADING_DASH.sub("", line))
-    if not dishes:
-        return the_date, None, None, None
-    main_raw = dishes[-1]
-    starter_raw = " / ".join(dishes[:-1]) or None
-    main, allergens = split_allergens_in_parens(main_raw)
-    starter = None
-    if starter_raw:
-        s_name, s_all = split_allergens_in_parens(starter_raw)
-        starter = s_name + (f" ({s_all})" if s_all else "")
-    return the_date, starter, main, allergens
+            d = parse_german_date(line, ref)
+            if d:
+                blocks.append((d, []))
+                continue
+        if blocks:  # Text vor dem ersten Datum ignorieren
+            blocks[-1][1].append(line)
+    parsed = []
+    for d, block_lines in blocks:
+        starter, main, allergens = _parse_block(block_lines)
+        if main:
+            parsed.append((d, starter, main, allergens))
+    today = ref or today_vienna()
+    current = [b for b in parsed if b[0] >= today]
+    return current or sorted(parsed, key=lambda b: b[0])[-1:]
 
 
 def parse(html: str, ref: date | None = None) -> RestaurantMenu:
@@ -58,20 +94,18 @@ def parse(html: str, ref: date | None = None) -> RestaurantMenu:
         content = soup.find(id=content_id) if content_id else None
         if not content:
             continue
-        lines = [p.get_text(" ") for p in content.find_all("p")]
-        d, starter, main, allergens = _parse_lines(lines, ref)
-        if not d or not main:
-            continue
-        day = by_date.setdefault(d.isoformat(), Day(date=d.isoformat()))
-        day.items.append(
-            Item(
-                label=_label(title),
-                name=main,
-                price=parse_price(title),
-                allergens=allergens,
-                description=f"Vorspeise: {starter}" if starter else None,
+        lines = [p.get_text(" ") for p in content.find_all("p")] or content.get_text("\n").splitlines()
+        for d, starter, main, allergens in _parse_lines(lines, ref):
+            day = by_date.setdefault(d.isoformat(), Day(date=d.isoformat()))
+            day.items.append(
+                Item(
+                    label=_label(title),
+                    name=main,
+                    price=parse_price(title),
+                    allergens=allergens,
+                    description=f"Vorspeise: {starter}" if starter else None,
+                )
             )
-        )
 
     if not by_date:
         # Fallback: og:description enthält den gleichen Text als Fließtext
@@ -103,20 +137,26 @@ _OG_BLOCK = re.compile(
 def _parse_og(text: str, ref: date | None, by_date: dict[str, Day]) -> None:
     for num, price, dstr, body in _OG_BLOCK.findall(text):
         parts = [p for p in re.split(r"\s+[\-–]\s*|^\s*[\-–]\s*", body) if clean(p)]
-        d, starter, main, allergens = _parse_lines([dstr, *parts], ref)
-        if not d or not main:
-            continue
-        day = by_date.setdefault(d.isoformat(), Day(date=d.isoformat()))
-        day.items.append(
-            Item(
-                label=f"Menü {num}",
-                name=main,
-                price=parse_price(price),
-                allergens=allergens,
-                description=f"Vorspeise: {starter}" if starter else None,
+        # die og-Teile sind schon an den Strichen getrennt -> jeder Teil ein eigenes Gericht
+        for d, starter, main, allergens in _parse_lines([dstr, *(f"- {x}" for x in parts)], ref):
+            day = by_date.setdefault(d.isoformat(), Day(date=d.isoformat()))
+            day.items.append(
+                Item(
+                    label=f"Menü {num}",
+                    name=main,
+                    price=parse_price(price),
+                    allergens=allergens,
+                    description=f"Vorspeise: {starter}" if starter else None,
+                )
             )
-        )
 
 
 def scrape() -> RestaurantMenu:
-    return parse(fetch_text(URL))
+    html = fetch_text(URL)
+    menu = parse(html)
+    if not menu.days:
+        soup = BeautifulSoup(html, "html.parser")
+        title = clean(soup.title.get_text()) if soup.title else "-"
+        tabs = len(soup.select(".elementor-tab-desktop-title"))
+        raise ValueError(f"Kein Tagesmenü gefunden ({tabs} Tabs, {len(html)} Zeichen, Titel: {title!r})")
+    return menu

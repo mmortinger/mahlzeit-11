@@ -54,3 +54,12 @@ def test_text_helpers():
     assert join_hyphenated("Gemüse-Kartoffel- Auflauf") == "Gemüse-Kartoffel-Auflauf"
     assert clean("Creme ,getrockneten  Tomaten") == "Creme, getrockneten Tomaten"
     assert clean("€ 10,90") == "€ 10,90"
+
+
+def test_allergens_new_notations():
+    assert split_allergens_in_parens("Hülsenfrüchtesuppe (A/L)") == ("Hülsenfrüchtesuppe", "A, L")
+    assert split_allergens_in_parens("Lasagna (mit Mozzarella und Faschiertem A,C,G,L)") == (
+        "Lasagna (mit Mozzarella und Faschiertem)", "A, C, G, L")
+    assert split_allergens_in_parens("Sfiziotta (Römische Pinsa) mit Gemüse (A,G)") == (
+        "Sfiziotta (Römische Pinsa) mit Gemüse", "A, G")
+    assert split_allergens_in_parens("Pasta (mit Ei)") == ("Pasta (mit Ei)", None)
