@@ -219,174 +219,6 @@
       "empty_hint": "Osfizio stellt nur das Tagesmenü online – oft erst am Vormittag, manchmal schon am Vorabend."
     },
     {
-      "id": "fruga",
-      "name": "Fruga Vital",
-      "source_url": "https://frugavital.at/",
-      "days": [
-        {
-          "date": "2026-11-16",
-          "items": [
-            {
-              "label": "Gericht 1",
-              "name": "Veganes Gemüsecurry mit Reis",
-              "price": 10.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 2",
-              "name": "Faschierter Braten mit Püree und Röstzwiebel",
-              "price": 12.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 3",
-              "name": "Gebackene ausgelöste Hühnerkeulen mit Erdäpfelsalat",
-              "price": 13.9,
-              "allergens": null,
-              "vegetarian": null
-            }
-          ]
-        },
-        {
-          "date": "2026-11-17",
-          "items": [
-            {
-              "label": "Gericht 1",
-              "name": "Gnocchi mit Spinat-Obers-Sauce",
-              "price": 10.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 2",
-              "name": "Wiener Schnitzel vom Schwein mit Erdäpfelsalat",
-              "price": 13.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 3",
-              "name": "Schweinsfilet in Pfeffersauce mit Braterdäpfel",
-              "price": 14.9,
-              "allergens": null,
-              "vegetarian": null
-            }
-          ]
-        },
-        {
-          "date": "2026-11-18",
-          "items": [
-            {
-              "label": "Gericht 1",
-              "name": "Gebackener Zeller mit Sauce Tartare",
-              "price": 10.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 2",
-              "name": "Spare Ribs mit Pommes und Cocktailsauce",
-              "price": 13.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 3",
-              "name": "Paprika-Huhn mit Teigwaren",
-              "price": 13.9,
-              "allergens": null,
-              "vegetarian": null
-            }
-          ]
-        },
-        {
-          "date": "2026-11-19",
-          "items": [
-            {
-              "label": "Gericht 1",
-              "name": "Spaghetti Bolognese mit Parmesan",
-              "price": 11.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 2",
-              "name": "Geröstete Schweineleber mit Reis",
-              "price": 10.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 3",
-              "name": "Rindsbraten mit Teigwaren und Preiselbeeren",
-              "price": 15.9,
-              "allergens": null,
-              "vegetarian": null
-            }
-          ]
-        },
-        {
-          "date": "2026-11-20",
-          "items": [
-            {
-              "label": "Gericht 1",
-              "name": "Kabeljaufilet gebacken mit Erdäpfelsalat",
-              "price": 15.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 2",
-              "name": "Fisch Natur mit Gemüse und Erdäpfel",
-              "price": 13.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 3",
-              "name": "Bauernschmaus (Kraut, Knödel)",
-              "price": 14.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 4",
-              "name": "Überbackener Topfenpalatschinken mit Vanillesauce",
-              "price": 9.9,
-              "allergens": null,
-              "vegetarian": null
-            }
-          ]
-        },
-        {
-          "date": "2026-11-21",
-          "items": [
-            {
-              "label": "Gericht 1",
-              "name": "Chili Con Carne mit Gebäck",
-              "price": 10.9,
-              "allergens": null,
-              "vegetarian": null
-            },
-            {
-              "label": "Gericht 2",
-              "name": "Sarma Krautroulade mit Salzkartoffeln",
-              "price": 13.9,
-              "allergens": null,
-              "vegetarian": null
-            }
-          ]
-        }
-      ],
-      "notes": [],
-      "fetched_at": "2026-11-19T20:48:09+01:00",
-      "stale": false,
-      "error": null,
-      "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
-    },
-    {
       "id": "interspar",
       "name": "Interspar",
       "source_url": "https://flugblatt.interspar.at/menuplane/menuplan-kw47/",
@@ -636,6 +468,174 @@
       "preview_image": "https://cdn.ipaper.io/OpenGraphImage.ashx?v=eyJQYXBlckd1aWQiOiIyNmFlYjU4ZS0xMDhkLTQxYmMtOTNmYy1mY2Q3YWJjZDQyNWQiLCJQYWdlTnVtYmVyIjoxLCJQYWdlQ291bnQiOjEsIlN0YXJ0T25TcHJlYWQiOmZhbHNlLCJVcmwiOiIvaW50ZXJzcGFyLWF1c3RyaWEvbWVudXBsYW5lL21lbnVwbGFuLWt3NDcvIiwiUGFydG5lck5hbWUiOiJpUGFwZXIifQ==",
       "valid_from": "2026-11-16",
       "valid_to": "2026-11-21"
+    },
+    {
+      "id": "fruga",
+      "name": "Fruga Vital",
+      "source_url": "https://frugavital.at/",
+      "days": [
+        {
+          "date": "2026-11-16",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Veganes Gemüsecurry mit Reis",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Faschierter Braten mit Püree und Röstzwiebel",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Gebackene ausgelöste Hühnerkeulen mit Erdäpfelsalat",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-17",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Gnocchi mit Spinat-Obers-Sauce",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Wiener Schnitzel vom Schwein mit Erdäpfelsalat",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Schweinsfilet in Pfeffersauce mit Braterdäpfel",
+              "price": 14.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-18",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Gebackener Zeller mit Sauce Tartare",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Spare Ribs mit Pommes und Cocktailsauce",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Paprika-Huhn mit Teigwaren",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-19",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Spaghetti Bolognese mit Parmesan",
+              "price": 11.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Geröstete Schweineleber mit Reis",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Rindsbraten mit Teigwaren und Preiselbeeren",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-20",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Kabeljaufilet gebacken mit Erdäpfelsalat",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Fisch Natur mit Gemüse und Erdäpfel",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Bauernschmaus (Kraut, Knödel)",
+              "price": 14.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 4",
+              "name": "Überbackener Topfenpalatschinken mit Vanillesauce",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-21",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Chili Con Carne mit Gebäck",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Sarma Krautroulade mit Salzkartoffeln",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        }
+      ],
+      "notes": [],
+      "fetched_at": "2026-11-19T20:48:09+01:00",
+      "stale": false,
+      "error": null,
+      "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
     }
   ]
 }

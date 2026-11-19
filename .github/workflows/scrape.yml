@@ -51,9 +51,9 @@ jobs:
       problem_text: ${{ steps.scrape.outputs.problem_text }}
       tests: ${{ steps.tests.outcome }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -74,7 +74,7 @@ jobs:
 
       - name: Diagnose-Dateien hochladen (nur wenn ein Scraper scheiterte)
         if: always() && hashFiles('debug/**') != ''
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: diagnose-${{ github.run_id }}
           path: debug/
@@ -100,20 +100,34 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment_retry.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.ref_name }}  # neuester Stand inkl. frischem menu.json-Commit
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
+      # GitHubs Artefakt-Liste hinkt manchmal hinterher ("Found 0 artifact(s)" direkt nach dem
+      # Upload) – kurz warten und bei Fehlschlag nach 30 s ein zweites Mal versuchen.
+      - name: Kurz warten
+        run: sleep 5
+
       - id: deployment
-        uses: actions/deploy-pages@v4
+        continue-on-error: true
+        uses: actions/deploy-pages@v5
+
+      - name: Warten vor zweitem Deploy-Versuch
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 30
+
+      - id: deployment_retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5
 
   # Läuft nach Crawl + Deploy und lässt den Workflow fehlschlagen, wenn etwas nicht stimmt.
   # GitHub schickt bei fehlgeschlagenen Läufen automatisch eine Mail (Settings -> Notifications -> Actions).
