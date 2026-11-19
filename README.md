@@ -135,6 +135,10 @@ man, was der Server tatsächlich geliefert hat.
   `interspar.at/gastronomie/restaurant-menueplan` ist per Cloudflare-Challenge gesperrt und
   daher kein automatischer Fallback. Das Flugblatt nennt keine Filiale – es gibt nur eine
   österreichweite URL.
+- **Bot-Schutz:** Der Hoster von Osfizio liefert Abrufen aus Rechenzentren (GitHub) gelegentlich
+  eine Prüfseite („Einen Moment bitte …“) statt des Inhalts. Das wird erkannt (`BlockedError`) und
+  bewusst nicht umgangen: Die letzten Daten bleiben stehen, der nächste Lauf versucht es wieder.
+  Alarm gibt es nur, wenn deshalb ab 11 Uhr das heutige Menü fehlt.
 - **Osfizio** stellt nur den aktuellen Tag online, teils erst gegen 10:45. Bereits gesehene Tage
   der Woche werden in `menu.json` behalten, damit man zurückblättern kann. Manchmal bleibt das
   Menü vom Vortag unter dem aktuellen im Tab stehen – Blöcke vor heute werden ignoriert.

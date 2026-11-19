@@ -80,3 +80,20 @@ def test_report_to_github(tmp_path, monkeypatch):
 def test_no_warning_when_source_already_shows_next_week():
     data = {"restaurants": [restaurant("lercherl", dates=("2026-11-16", "2026-11-17"))]}
     assert health.check(data, at("2026-11-13T15:47")) == []
+
+
+
+BLOCKED = "BlockedError: Bot-Schutz der Website (Seite „Einen Moment bitte …“)"
+
+
+def test_blocked_with_todays_data_is_no_problem():
+    data = {"restaurants": [restaurant("osfizio", dates=("2026-11-12",), stale=True, error=BLOCKED)]}
+    assert health.check(data, THU_NOON) == []
+    assert health.check(data, at("2026-11-12T09:00")) == []
+
+
+def test_blocked_without_todays_data_warns_from_11():
+    data = {"restaurants": [restaurant("osfizio", dates=("2026-11-11",), stale=True, error=BLOCKED)]}
+    assert health.check(data, at("2026-11-12T09:00")) == []
+    probs = health.check(data, THU_NOON)
+    assert msgs(probs) == [("Warnung", "Osfizio")] and "Bot-Schutz" in probs[0].message

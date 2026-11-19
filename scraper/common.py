@@ -78,9 +78,36 @@ def decode_html(content: bytes, header_content_type: str = "") -> str:
     return content.decode(encoding, errors="replace")
 
 
+class BlockedError(RuntimeError):
+    """Die Website hat statt des Inhalts eine Bot-Schutz-/Prüfseite geliefert.
+    Wird bewusst nicht umgangen – der Runner behält dann die letzten Daten."""
+
+
+_CHALLENGE_TITLE = re.compile(
+    r"<title>\s*(Einen Moment bitte|Just a moment|Attention Required|Bitte warten|"
+    r"One moment, please|DDoS-Schutz|Robot Challenge)", re.I)
+_CHALLENGE_TEXT = re.compile(r"während Ihre Anfrage geprüft wird|checking your browser", re.I)
+
+
+def challenge_reason(html: str) -> str | None:
+    """Kurzbeschreibung, wenn `html` eine Bot-Schutz-Prüfseite ist, sonst None."""
+    if len(html) > 60_000:  # echte Seiten sind deutlich größer als Prüfseiten
+        return None
+    m = _CHALLENGE_TITLE.search(html)
+    if m:
+        return f"Bot-Schutz der Website (Seite „{clean(m.group(1))} …“)"
+    if _CHALLENGE_TEXT.search(html):
+        return "Bot-Schutz der Website (Prüfseite)"
+    return None
+
+
 def fetch_text(url: str) -> str:
     resp = fetch(url)
-    return decode_html(resp.content, resp.headers.get("Content-Type", ""))
+    html = decode_html(resp.content, resp.headers.get("Content-Type", ""))
+    reason = challenge_reason(html)
+    if reason:
+        raise BlockedError(reason)
+    return html
 
 
 # ---------------------------------------------------------------- Zeit

@@ -5,6 +5,10 @@ Warnung  : Scraper lief, aber etwas stimmt nicht – z. B. an einem Werktag ab 1
            kein Menü für heute (Seite nicht aktualisiert oder Parser findet nichts mehr),
            oder Interspar nur als Flugblatt-Link statt geparster Gerichte.
 Feiertage und Wochenenden lösen keine Warnung aus.
+
+Liefert eine Website eine Bot-Schutz-Prüfseite (BlockedError), ist das kein Fehler des
+Crawlers, sondern kommt bei Abrufen aus Rechenzentren gelegentlich vor. Dann wird nur
+gewarnt, wenn dadurch ab 11 Uhr das heutige Menü fehlt – sonst reicht der nächste Lauf.
 """
 from __future__ import annotations
 
@@ -62,7 +66,8 @@ def check(data: dict, now: datetime) -> list[Problem]:
 
     for r in data.get("restaurants", []):
         name = r.get("name") or r.get("id", "?")
-        if r.get("stale") or r.get("error"):
+        blocked = (r.get("error") or "").startswith("BlockedError")
+        if (r.get("stale") or r.get("error")) and not blocked:
             problems.append(Problem("Fehler", name, f"Abruf fehlgeschlagen ({r.get('error') or 'unbekannt'}) "
                                                      "– die Seite zeigt ältere Daten"))
             continue
@@ -74,7 +79,8 @@ def check(data: dict, now: datetime) -> list[Problem]:
         # Quelle hat schon auf die Folgewoche umgestellt (Lercherl: Fr-Nachmittag) – kein Fehler
         switched = any(d.get("date", "") > today and d.get("items") for d in days)
         if expect_today and not has_today and not switched:
-            problems.append(Problem("Warnung", name, f"kein Menü für heute ({today}) gefunden"))
+            why = " – die Website hat den Abruf blockiert (Bot-Schutz)" if blocked else ""
+            problems.append(Problem("Warnung", name, f"kein Menü für heute ({today}) gefunden{why}"))
     return problems
 
 

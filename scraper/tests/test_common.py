@@ -63,3 +63,23 @@ def test_allergens_new_notations():
     assert split_allergens_in_parens("Sfiziotta (Römische Pinsa) mit Gemüse (A,G)") == (
         "Sfiziotta (Römische Pinsa) mit Gemüse", "A, G")
     assert split_allergens_in_parens("Pasta (mit Ei)") == ("Pasta (mit Ei)", None)
+
+
+
+def test_challenge_page_detected(fixture_text):
+    from scraper.common import challenge_reason
+    assert "Bot-Schutz" in challenge_reason(fixture_text("osfizio_challenge.html"))
+    assert challenge_reason(fixture_text("osfizio.html")) is None
+    assert challenge_reason(fixture_text("lercherl.html")) is None
+    assert challenge_reason(fixture_text("fruga.html")) is None
+
+
+def test_fetch_text_raises_blocked(monkeypatch, fixture_text):
+    import types
+    import pytest
+    from scraper import common
+    html = fixture_text("osfizio_challenge.html")
+    fake = types.SimpleNamespace(content=html.encode("utf-8"), headers={"Content-Type": "text/html"})
+    monkeypatch.setattr(common, "fetch", lambda url: fake)
+    with pytest.raises(common.BlockedError, match="Einen Moment bitte"):
+        common.fetch_text("https://x")
