@@ -9,6 +9,9 @@ Feiertage und Wochenenden lösen keine Warnung aus.
 Liefert eine Website eine Bot-Schutz-Prüfseite (BlockedError), ist das kein Fehler des
 Crawlers, sondern kommt bei Abrufen aus Rechenzentren gelegentlich vor. Dann wird nur
 gewarnt, wenn dadurch ab 11 Uhr das heutige Menü fehlt – sonst reicht der nächste Lauf.
+
+Hat eine Website gerade gar kein Menü veröffentlicht (`notice`), wird erst gewarnt, wenn das
+schon den zweiten Werktag so ist (Ruhetag/Urlaub vs. Seite dauerhaft umgebaut).
 """
 from __future__ import annotations
 
@@ -58,6 +61,15 @@ def is_workday(d: date) -> bool:
     return d.weekday() < 5 and d not in austrian_holidays(d.year)
 
 
+def workdays_between(start: date, end: date) -> int:
+    """Anzahl Werktage im Bereich [start, end]."""
+    n, d = 0, start
+    while d <= end:
+        n += is_workday(d)
+        d += timedelta(days=1)
+    return n
+
+
 def check(data: dict, now: datetime) -> list[Problem]:
     """`now` muss Wiener Ortszeit sein."""
     problems: list[Problem] = []
@@ -78,6 +90,12 @@ def check(data: dict, now: datetime) -> list[Problem]:
         has_today = any(d.get("date") == today and d.get("items") for d in days)
         # Quelle hat schon auf die Folgewoche umgestellt (Lercherl: Fr-Nachmittag) – kein Fehler
         switched = any(d.get("date", "") > today and d.get("items") for d in days)
+        if expect_today and not has_today and not switched and r.get("notice"):
+            since = date.fromisoformat(r.get("unpublished_since") or today)
+            if workdays_between(since, now.date()) >= 2:
+                problems.append(Problem("Warnung", name, f"seit {since:%d.%m.} kein Mittagsmenü auf der Website – "
+                                                         f"Pause oder neues Format? Bitte nachsehen: {r.get('source_url', '')}"))
+            continue
         if expect_today and not has_today and not switched:
             why = " – die Website hat den Abruf blockiert (Bot-Schutz)" if blocked else ""
             problems.append(Problem("Warnung", name, f"kein Menü für heute ({today}) gefunden{why}"))

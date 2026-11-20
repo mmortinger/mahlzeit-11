@@ -52,3 +52,22 @@ def test_scrape_error_is_descriptive(monkeypatch):
     monkeypatch.setattr(osfizio, "fetch_text", lambda url: "<html><title>Wartung</title></html>")
     with pytest.raises(ValueError, match="0 Tabs.*Wartung"):
         osfizio.scrape()
+
+
+
+def test_menu_block_removed_is_notice_not_error(fixture_text, monkeypatch):
+    # 20.11.2026: Seite normal erreichbar, Menü-Tabs komplett entfernt
+    from datetime import date
+    html = fixture_text("osfizio_ohne_menue.html")
+    menu = osfizio.parse(html, date(2026, 11, 20))
+    assert menu.days == [] and "kein Mittagsmenü" in menu.notice
+    monkeypatch.setattr(osfizio, "fetch_text", lambda url: html)
+    assert osfizio.scrape().notice  # kein ValueError
+
+
+def test_unparseable_tabs_are_still_an_error(fixture_text, monkeypatch):
+    import pytest
+    html = fixture_text("osfizio.html").replace("12.11.2026", "irgendwann")
+    monkeypatch.setattr(osfizio, "fetch_text", lambda url: html)
+    with pytest.raises(ValueError):
+        osfizio.scrape()

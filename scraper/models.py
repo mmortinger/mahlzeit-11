@@ -42,11 +42,17 @@ class RestaurantMenu:
     preview_image: str | None = None
     valid_from: str | None = None
     valid_to: str | None = None
+    # Quelle erreichbar, aber derzeit kein Menü veröffentlicht (z. B. Osfizio hat den Menüblock
+    # entfernt) – kein Fehler; wird auf der Karte statt "Kein Menü" angezeigt.
+    notice: str | None = None
+    # Seit wann (ISO-Datum) kein Menü veröffentlicht ist – vom Runner über Läufe hinweg gemerkt.
+    unpublished_since: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         d = asdict(self)
         # Optionale Felder nur ausgeben, wenn gesetzt -> schlankeres JSON
-        for key in ("subtitle", "empty_hint", "flyer_url", "preview_image", "valid_from", "valid_to"):
+        for key in ("subtitle", "empty_hint", "flyer_url", "preview_image", "valid_from", "valid_to",
+                    "notice", "unpublished_since"):
             if d[key] is None:
                 del d[key]
         for day in d["days"]:

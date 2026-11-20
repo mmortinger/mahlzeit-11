@@ -208,6 +208,7 @@
   function emptyText(r, iso) {
     const hasWeek = weekHasData(r, mondayOf(iso));
     if (!hasWeek && isFutureWeek(mondayOf(iso))) return "Das Menü für diese Woche ist noch nicht veröffentlicht.";
+    if (r.notice && iso >= state.today) return r.notice;
     if (r.empty_hint && (iso >= state.today || !hasWeek)) return r.empty_hint;
     return "Kein Menü für diesen Tag.";
   }

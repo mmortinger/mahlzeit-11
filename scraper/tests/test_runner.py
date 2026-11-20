@@ -98,3 +98,20 @@ def test_failure_writes_debug_files(tmp_path, monkeypatch):
     assert "nix gefunden" in info and "HTTP 200" in info
     pages = [f for f in (tmp_path / "b").iterdir() if f.name != "fehler.txt"]
     assert pages and pages[0].read_bytes() == b"<html>leer</html>"
+
+
+
+def test_notice_without_days_is_ok_and_remembers_since(monkeypatch):
+    from datetime import date
+
+    def nothing_online():
+        return RestaurantMenu(id="a", name="A", source_url="x", notice="kein Menü online")
+
+    monkeypatch.setattr(runner, "today_vienna", lambda: date(2026, 11, 23))
+    r = runner.build([fake_module("a", nothing_online)], {})["restaurants"][0]
+    assert r["stale"] is False and r["notice"] and r["unpublished_since"] == "2026-11-23"
+    old = {"id": "a", "days": [], "unpublished_since": "2026-11-20"}
+    r = runner.build([fake_module("a", nothing_online)], {"a": old})["restaurants"][0]
+    assert r["unpublished_since"] == "2026-11-20"  # Beginn bleibt erhalten
+    r = runner.build([fake_module("a", ok_menu)], {"a": old})["restaurants"][0]
+    assert "unpublished_since" not in r and "notice" not in r  # Menü wieder da

@@ -60,7 +60,7 @@ def _merge_past_days(new: dict, old: dict | None, today: date | None = None) -> 
 
 def _attempt(scrape: Callable[[], RestaurantMenu]) -> RestaurantMenu:
     menu = scrape()
-    if not menu.days and not menu.flyer_url:
+    if not menu.days and not menu.flyer_url and not menu.notice:
         raise ValueError("Keine Menüdaten gefunden – Seitenstruktur geändert?")
     return menu
 
@@ -97,6 +97,8 @@ def run_one(module: Any, old: dict | None, scrape: Callable[[], RestaurantMenu] 
         menu.fetched_at = iso_now()
         menu.stale = False
         menu.error = None
+        if menu.notice:  # "kein Menü online": Beginn über Läufe hinweg merken
+            menu.unpublished_since = (old or {}).get("unpublished_since") or today_vienna().isoformat()
         result = menu.to_dict()
         _merge_past_days(result, old)
         return result

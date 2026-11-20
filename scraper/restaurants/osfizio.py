@@ -114,6 +114,13 @@ def parse(html: str, ref: date | None = None) -> RestaurantMenu:
             _parse_og(og["content"], ref, by_date)
 
     menu.days = sorted(by_date.values(), key=lambda x: x.date)
+    normal_page = len(html) > 30_000 and any(
+        h.get_text(strip=True).startswith("Mittagsmen") for h in soup.select(".elementor-heading-title"))
+    if (not menu.days and normal_page and not soup.select(".elementor-tab-desktop-title")
+            and not _MENU_PRICE.search(html)):
+        # Seite ist normal da, aber der Menüblock wurde entfernt (so am 20.11.2026) –
+        # Osfizio hat schlicht kein Menü online. Kein Parser-Fehler.
+        menu.notice = "Derzeit ist auf der Website von Osfizio kein Mittagsmenü veröffentlicht."
 
     sub = "Mit Vorspeise (Salat oder Suppe)"
     hours = soup.find(string=_HOURS)
@@ -125,6 +132,7 @@ def parse(html: str, ref: date | None = None) -> RestaurantMenu:
     return menu
 
 
+_MENU_PRICE = re.compile(r"Mittagsmen\S*\s*€\s*\d+,\d{2}")
 _HOURS = re.compile(r"(\d{1,2}[.:]\d{2})\s*-\s*(\d{1,2}[.:]\d{2})")
 
 
@@ -154,7 +162,7 @@ def _parse_og(text: str, ref: date | None, by_date: dict[str, Day]) -> None:
 def scrape() -> RestaurantMenu:
     html = fetch_text(URL)
     menu = parse(html)
-    if not menu.days:
+    if not menu.days and not menu.notice:
         soup = BeautifulSoup(html, "html.parser")
         title = clean(soup.title.get_text()) if soup.title else "-"
         tabs = len(soup.select(".elementor-tab-desktop-title"))

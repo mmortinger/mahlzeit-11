@@ -97,3 +97,17 @@ def test_blocked_without_todays_data_warns_from_11():
     assert health.check(data, at("2026-11-12T09:00")) == []
     probs = health.check(data, THU_NOON)
     assert msgs(probs) == [("Warnung", "Osfizio")] and "Bot-Schutz" in probs[0].message
+
+
+
+def test_notice_warns_only_from_second_workday():
+    def r(since, dates=()):
+        return {"restaurants": [restaurant("osfizio", dates=dates, notice="kein Menü online",
+                                           unpublished_since=since, source_url="https://o")]}
+    fri, mon = at("2026-11-20T12:00"), at("2026-11-23T12:00")
+    assert health.check(r("2026-11-20"), fri) == []                       # 1. Werktag: nur Hinweis
+    assert health.check(r("2026-11-20"), at("2026-11-23T09:00")) == []    # Mo vor 11 Uhr
+    probs = health.check(r("2026-11-20"), mon)                            # Fr + Mo -> Warnung
+    assert msgs(probs) == [("Warnung", "Osfizio")] and "20.11." in probs[0].message
+    assert health.check(r("2026-11-20", dates=("2026-11-23",)), mon) == []  # Menü wieder da
+    assert health.workdays_between(date(2026, 11, 20), date(2026, 11, 23)) == 2
