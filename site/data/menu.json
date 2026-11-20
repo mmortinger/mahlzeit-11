@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-20T14:20:02+01:00",
+  "generated_at": "2026-11-20T16:42:02+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -116,7 +116,7 @@
         "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
         "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
       ],
-      "fetched_at": "2026-11-20T14:19:30+01:00",
+      "fetched_at": "2026-11-20T16:41:32+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Alle Menüs mit Tagessuppe"
@@ -399,10 +399,173 @@
               "vegetarian": null
             }
           ]
+        },
+        {
+          "date": "2026-11-23",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Schinkenfleckerl mit Salat",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Kümmelbraten mit Reis und Krautsalat",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Rindsschnitzel mit Teigwaren und Preiselbeeren",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-24",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Kalbs-Gulasch mit Nockerln",
+              "price": 14.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Bratwurst mit Sauerkraut und Erdäpfeln",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Gekochtes Schulterscherzel mit Dillerdäpfel",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-25",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Gebackene Schweineleber mit Erdäpfelsalat",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Krautfleisch mit Knödel",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Kalbsrollbraten mit Gemüse und Reis",
+              "price": 14.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-26",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Gemüsestrudel mit Erdäpfel und Dip",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Gefüllte Kalbsbrust mit Salat",
+              "price": 14.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Fleischlaibchen mit Püree und Röstzwiebeln",
+              "price": 12.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-27",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Kabeljaufilet gebacken mit Erdäpfelsalat",
+              "price": 15.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Fisch Natur mit Gemüse und Erdäpfel",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Gänsekeule mit Rotkraut und Kartoffelknödel",
+              "price": 24.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 4",
+              "name": "Germknödel mit Zuckermohn und Butter",
+              "price": 9.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
+        },
+        {
+          "date": "2026-11-28",
+          "items": [
+            {
+              "label": "Gericht 1",
+              "name": "Kalbsrahmbeuschel mit Knödel",
+              "price": 13.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 2",
+              "name": "Gänsekeule mit Rotkraut und Kartoffelknödel",
+              "price": 24.9,
+              "allergens": null,
+              "vegetarian": null
+            },
+            {
+              "label": "Gericht 3",
+              "name": "Gebackene Augsburger mit Erdäpfelsalat",
+              "price": 10.9,
+              "allergens": null,
+              "vegetarian": null
+            }
+          ]
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-20T14:19:57+01:00",
+      "fetched_at": "2026-11-20T16:41:56+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
@@ -648,7 +811,7 @@
         "Solange der Vorrat reicht",
         "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"
       ],
-      "fetched_at": "2026-11-20T14:20:02+01:00",
+      "fetched_at": "2026-11-20T16:42:02+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr",
