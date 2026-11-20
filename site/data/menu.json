@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-20T01:46:49+01:00",
+  "generated_at": "2026-11-20T14:20:02+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -116,7 +116,7 @@
         "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
         "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
       ],
-      "fetched_at": "2026-11-20T01:46:38+01:00",
+      "fetched_at": "2026-11-20T14:19:30+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Alle Menüs mit Tagessuppe"
@@ -234,8 +234,8 @@
       ],
       "notes": [],
       "fetched_at": "2026-11-20T01:46:40+01:00",
-      "stale": false,
-      "error": null,
+      "stale": true,
+      "error": "ValueError: Kein Tagesmenü gefunden (0 Tabs, 100295 Zeichen, Titel: 'Mittagsmenüs - Osfizio')",
       "subtitle": "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr",
       "empty_hint": "Osfizio stellt nur das Tagesmenü online – oft erst am Vormittag, manchmal schon am Vorabend."
     },
@@ -402,7 +402,7 @@
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-20T01:46:42+01:00",
+      "fetched_at": "2026-11-20T14:19:57+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
@@ -648,7 +648,7 @@
         "Solange der Vorrat reicht",
         "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"
       ],
-      "fetched_at": "2026-11-20T01:46:49+01:00",
+      "fetched_at": "2026-11-20T14:20:02+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr",
