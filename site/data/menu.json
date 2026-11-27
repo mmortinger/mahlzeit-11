@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-27T10:58:24+01:00",
+  "generated_at": "2026-11-27T15:04:48+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -116,7 +116,7 @@
         "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
         "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
       ],
-      "fetched_at": "2026-11-27T10:58:06+01:00",
+      "fetched_at": "2026-11-27T15:04:33+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Alle Menüs mit Tagessuppe"
@@ -186,7 +186,7 @@
             },
             {
               "label": "Menü 2",
-              "name": "Lasagna di mare (mit Lachs, Spinat, Ricotta)",
+              "name": "Lasagna di mare (mit Lachs, Zucchini, , Ricotta)",
               "price": 10.9,
               "allergens": "A, C, D, G",
               "vegetarian": null,
@@ -196,7 +196,7 @@
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-27T10:58:07+01:00",
+      "fetched_at": "2026-11-27T15:04:34+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr",
@@ -372,7 +372,7 @@
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-27T10:58:18+01:00",
+      "fetched_at": "2026-11-27T15:04:41+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
@@ -621,7 +621,7 @@
         "Solange der Vorrat reicht",
         "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"
       ],
-      "fetched_at": "2026-11-27T10:58:24+01:00",
+      "fetched_at": "2026-11-27T15:04:48+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr",
