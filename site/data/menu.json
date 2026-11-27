@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-27T02:51:51+01:00",
+  "generated_at": "2026-11-27T10:58:24+01:00",
   "timezone": "Europe/Vienna",
   "restaurants": [
     {
@@ -116,7 +116,7 @@
         "Täglich als Alternative: Gebackenes Wiener Schnitzel mit Erdäpfel-Vogerlsalat",
         "Für Informationen zu den Allergenen fragen Sie gerne unsere Kellner."
       ],
-      "fetched_at": "2026-11-27T02:51:21+01:00",
+      "fetched_at": "2026-11-27T10:58:06+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Alle Menüs mit Tagessuppe"
@@ -172,12 +172,33 @@
               "description": "Vorspeise: Kichererbsencremesuppe (L)"
             }
           ]
+        },
+        {
+          "date": "2026-11-27",
+          "items": [
+            {
+              "label": "Menü 1",
+              "name": "Sfiziotta (Römische Pinsa) mit Tomatensauce, Büffelmozzarella, Basilikum",
+              "price": 11.9,
+              "allergens": "A, G",
+              "vegetarian": null,
+              "description": "Vorspeise: Gemischter Salat"
+            },
+            {
+              "label": "Menü 2",
+              "name": "Lasagna di mare (mit Lachs, Spinat, Ricotta)",
+              "price": 10.9,
+              "allergens": "A, C, D, G",
+              "vegetarian": null,
+              "description": "Vorspeise: Erbsencremesuppe (L)"
+            }
+          ]
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-26T18:12:22+01:00",
-      "stale": true,
-      "error": "BlockedError: Bot-Schutz der Website (Seite „Einen Moment bitte …“)",
+      "fetched_at": "2026-11-27T10:58:07+01:00",
+      "stale": false,
+      "error": null,
       "subtitle": "Mit Vorspeise (Salat oder Suppe) · Mo–Fr 11:30–15:00 Uhr",
       "empty_hint": "Osfizio stellt nur das Tagesmenü online – oft erst am Vormittag, manchmal schon am Vorabend."
     },
@@ -351,7 +372,7 @@
         }
       ],
       "notes": [],
-      "fetched_at": "2026-11-27T02:51:45+01:00",
+      "fetched_at": "2026-11-27T10:58:18+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Immer zu haben: Surschnitzel, Hühnerschnitzel und Kabeljaufilet"
@@ -600,7 +621,7 @@
         "Solange der Vorrat reicht",
         "Neuer Menüplan meist schon ab Donnerstag für die Folgewoche"
       ],
-      "fetched_at": "2026-11-27T02:51:51+01:00",
+      "fetched_at": "2026-11-27T10:58:24+01:00",
       "stale": false,
       "error": null,
       "subtitle": "Mit Suppe oder Menüsalat · täglich 10:30–16:00 Uhr",
